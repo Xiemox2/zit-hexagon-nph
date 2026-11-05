@@ -121,7 +121,6 @@ fun SettingsScreen(vm: AppViewModel, onAbout: () -> Unit) {
                 SwitchRow(stringResource(R.string.settings_nph_te_cache), stringResource(R.string.settings_nph_te_cache_sub), vm.nphTeCache, vm::setNphTeCache)
                 SwitchRow(stringResource(R.string.settings_nph_te_cache_disk), stringResource(R.string.settings_nph_te_cache_disk_sub), vm.nphTeCacheDisk && vm.nphTeCache, vm::setNphTeCacheDisk)
                 SwitchRow(stringResource(R.string.settings_nph_lora_combined), stringResource(R.string.settings_nph_lora_combined_sub), vm.nphLoraCombined, vm::setNphLoraCombined)
-                SwitchRow(stringResource(R.string.settings_nph_lora_fuse), stringResource(R.string.settings_nph_lora_fuse_sub), vm.nphLoraFuse, vm::setNphLoraFuse)
                 LaunchedEffect(Unit) { vm.refreshNphCacheSize() }
                 val cacheTxt = if (vm.nphCacheBytes < 0) "…" else vm.nphCacheBytes.humanBytes()
                 val freeTxt = if (vm.nphCacheFreeBytes < 0) "?" else vm.nphCacheFreeBytes.humanBytes()

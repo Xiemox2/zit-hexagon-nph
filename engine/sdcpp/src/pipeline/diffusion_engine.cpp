@@ -35,7 +35,6 @@
 #include "extensions/generation_extension.h"
 #include "model/adapter/ip_adapter.hpp"
 #include "model/adapter/lora.hpp"
-#include "model/adapter/nph_lora_fuse_selftest.hpp"
 #include "model/diffusion/animatediff.hpp"
 #include "model/diffusion/control.hpp"
 #include "model/diffusion/model.hpp"
@@ -1664,8 +1663,8 @@ bool StableDiffusionGGML::apply_loras_at_runtime(const std::vector<ModelManager:
                     nph_lora_combined->log_summary();
                 }
                 if (nph_lora_combined && adapter == nph_lora_combined) {
-                    // 0.30.2: validate the fused HMX LoRA op on this NPU once (synthetic data), else fall back.
-                    nph_lora::fuse_selftest_once(backend_for(SDBackendModule::DIFFUSION));
+                    // 0.30.3: HTP_OP_MUL_MAT_LORA retired (0.30.2 ADD reorder caused pure-noise LoRA images).
+                    LOG_INFO("nph-lora-fuse: off (0.30.3); 0.30.1 graph ADD(out,d) — fused HMX LoRA disabled");
                 }
             } else {
                 nph_lora_combined.reset();
@@ -2254,6 +2253,7 @@ sd::Tensor<float> StableDiffusionGGML::sample(const std::shared_ptr<DiffusionMod
                                                         : sampling_init_latent;
     sd::Tensor<float> denoised                    = x_t;
 
+    int nph_lora_sanity_left = 2;
     auto denoise = [&](const sd::Tensor<float>& x, float sigma, int step) -> sd::guidance::GuiderOutput {
         if (get_cancel_flag() == SD_CANCEL_ALL) {
             LOG_VERBOSE("cancelling generation");
@@ -2515,6 +2515,37 @@ sd::Tensor<float> StableDiffusionGGML::sample(const std::shared_ptr<DiffusionMod
         }
 
         denoised = guided.pred * c_out + x * c_skip;
+        // 0.30.3: after the first real denoise step with combined LoRA, log latent health.
+        // Pure-noise failures from the 0.30.2 ADD swap showed extreme/NaN stats here.
+        if (nph_lora_combined && nph_lora_sanity_left > 0 && (step == 0 || step == 1)) {
+            {
+                --nph_lora_sanity_left;
+                const float* p = denoised.data();
+                const size_t n = (size_t)denoised.numel();
+                size_t bad = 0;
+                double sum = 0, sum2 = 0;
+                float mn = 0, mx = 0;
+                bool any = false;
+                for (size_t i = 0; i < n; ++i) {
+                    float v = p[i];
+                    if (!std::isfinite(v)) { ++bad; continue; }
+                    sum += v; sum2 += (double)v * v;
+                    if (!any || v < mn) mn = v;
+                    if (!any || v > mx) mx = v;
+                    any = true;
+                }
+                const double mean = n ? sum / (double)n : 0;
+                const double var  = n ? std::max(0.0, sum2 / (double)n - mean * mean) : 0;
+                const bool fail = bad > 0 || !any || !(std::fabs(mean) < 50.0) || !(var < 1e6);
+                if (fail) {
+                    LOG_WARN("nph-lora-sanity: FAIL step=%d n=%zu nonfinite=%zu mean=%.4g std=%.4g min=%.4g max=%.4g — combined LoRA latent looks broken (clear nph-cache/lora if upgrading from 0.30.2)",
+                             step, n, bad, mean, std::sqrt(var), (double)mn, (double)mx);
+                } else {
+                    LOG_INFO("nph-lora-sanity: ok step=%d n=%zu mean=%.4g std=%.4g min=%.4g max=%.4g",
+                             step, n, mean, std::sqrt(var), (double)mn, (double)mx);
+                }
+            }
+        }
         sd::guidance::GuiderOutput output;
         output.pred = denoised;
         if (needs_uncond_denoised) {

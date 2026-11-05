@@ -312,7 +312,7 @@
     <string name="settings_npg_vae_sub">Decodifica la imagen en la GPU con ggml-opencl (pesos FP16, cálculo y acumulación FP32; nunca menos precisión). La 1.ª vez compila kernels (puede tardar).</string>
     <string name="settings_nph_lora_combined">LoRAs combinados (1 matmul por capa)</string>
     <string name="settings_nph_lora_combined_sub">Une todas las LoRAs en un solo par A/B por capa (rango concatenado, múltiplo de 32) para la NPU (HMX). Pesos FP16 exactos + escala FP32, acumulación FP32: nunca menos precisión que el archivo LoRA. Se guarda en disco (caché LoRA, se reconstruye si cambian archivos o fuerzas).</string>
-    <string name="settings_nph_lora_fuse">LoRA fusionada en la NPU (HMX) [experimental]</string>
+    <string name="settings_nph_lora_fuse">LoRA fusionada en la NPU (HMX) [retirado en 0.30.3]</string>
     <string name="settings_nph_lora_fuse_sub">Calcula escala·(B·(A·x)) dentro del matmul HMX de la capa base (acumulación y escala FP32, sin perder precisión). Se autoverifica una vez por sesión con datos sintéticos; si falla, vuelve sola al camino 0.30.1. Apagado por defecto: el op fusionado en HMX no se ha validado en el teléfono. Actívalo solo si quieres probarlo; si falla, la app vuelve sola al camino 0.30.1.</string>
     <string name="settings_npg_mm_f32">NPG: mul_mat GPU con acumulación FP32</string>
     <string name="settings_npg_mm_f32_sub">Desactiva el GEMM «xmem» de Adreno (acumula en FP16) y usa el kernel con acumulación FP32. Recomendado. Cambiarlo aplica tras reiniciar la app.</string>

@@ -262,7 +262,7 @@ class NphEngine(private val context: Context) : ZitEngine {
         b("NPH_NPG_STATS", ctxNpgVae)
         b("NPH_NPG_VAE_CHECK", ctxNpgVae)
         b("NPH_LORA_COMBINED", prefs.nphLoraCombined)
-        b("NPH_LORA_FUSE", prefs.nphLoraFuse)
+        b("NPH_LORA_FUSE", false)  // 0.30.3: fused HMX LoRA retired
         b("NPH_NPG_MM_F32", prefs.nphNpgMmF32)
         b("NPH_NPG_MM_NPU", NPG_BUILD && prefs.nphNpgVae && prefs.nphNpgMmNpu)  // native: only when the VAE is on a non-HTP device
         b("NPH_NPG_PART_FALLBACK", NPG_BUILD && prefs.nphNpgVae && prefs.nphNpgPartFallback)

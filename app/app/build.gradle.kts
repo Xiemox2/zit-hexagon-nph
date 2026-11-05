@@ -13,8 +13,8 @@ android {
         // Target phone: Nubia Z80 Ultra (SM8850, Hexagon HTP v81), Android 16.
         minSdk = 35
         targetSdk = 36
-        versionCode = 44
-        versionName = "0.30.2"
+        versionCode = 45
+        versionName = "0.30.3"
         //noinspection ChromeOsAbiSupport
         ndk { abiFilters += "arm64-v8a" }
     }

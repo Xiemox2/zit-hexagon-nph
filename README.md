@@ -12,12 +12,19 @@ En particular, **invitamos a quienes mantienen [Nightmare Mobile](https://github
 
 ## Qué es
 
-- **App:** `com.zithexagon`, versionCode **44**, versionName **0.30.2**.
+- **App:** `com.zithexagon`, versionCode **45**, versionName **0.30.3** (arreglo sobre 0.30.2).
 - **Motor:** fork MIT de `stable-diffusion.cpp` / `ggml-hexagon` + capa JNI NPH (`libnph.so`).
 - **Teléfono de referencia:** Nubia Z80 Ultra (`NX741J`), SoC **SM8850**, Hexagon **HTP v81**, Android 16. También se incluye el skel **v79**.
 - **Precisión (no se bajó):** DiT pesos **FP8 E4M3**, residuales no-matmul **FP32**, TE **Q8_0**, LoRA nunca por debajo de la precisión del archivo (conversión exacta a FP16 + escala FP32, acumulación FP32).
 
 Los **modelos no vienen en el repo**. Hay que conseguirlos en sus fuentes públicas (ver abajo).
+
+
+## 0.30.3 — arreglo del ruido LoRA de 0.30.2
+
+La release pública **0.30.2 (vc44)** generaba **ruido oscuro** con LoRAs combinadas (con o sin fusión HMX). Causa: el orden `ADD(d,out)` de 0.30.2 (para el fuser) rompía el grafo 0.30.1 (`ADD(out,d)`); el perfil pasaba de **210 mm / 570 ew** a **360 / 420**.
+
+**0.30.3 (vc45)** restaura el ADD de 0.30.1, retira el op fusionado HMX, sube la magia de caché LoRA a `NPHLC003` y añade `nph-lora-sanity` tras el paso 1. El repo quedó **privado** mientras se valida; el APK de 0.30.2 se eliminó de Releases.
 
 ## Estado congelado: por qué 0.30.2
 

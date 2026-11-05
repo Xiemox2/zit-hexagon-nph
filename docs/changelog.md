@@ -38,3 +38,9 @@ Fechas en America/Merida (UTC-6). Cifras de teléfono solo cuando se indica.
 - Arreglo 2.ª imagen (tracking idle + atajo si el set de LoRAs no cambia).
 - Op experimental LoRA en epílogo HMX **OFF por defecto** (no validado en teléfono).
 - Congelación del trabajo DiT de este proyecto.
+
+## 0.30.3 (vc45) — hot-fix LoRA noise
+- **Bug 0.30.2:** combined LoRA → pure dark noise; profile 360 mm/420 ew (good 0.30.1: 210/570). Fuse on/off both bad.
+- **Root cause (confirmed):** `graph_apply` / `graph_apply_deferred` ADD operand swap to `ADD(d,out)` for HTP_OP_MUL_MAT_LORA changed cgraph order / MUL_MAT+ADD fusion vs working `ADD(out,d)`.
+- **Fix:** restore `ADD(out,d)`; hard-disable fused HMX LoRA; hide UI toggle; cache magic NPHLC003; `nph-lora-sanity` after step 1.
+- GitHub repo set private; 0.30.2 release APK deleted.

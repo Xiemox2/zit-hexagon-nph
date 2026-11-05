@@ -332,15 +332,11 @@ inline ggml_tensor* graph_apply(ggml_context* ctx,
     if (lin_scale != 1.0f) {
         d = ggml_scale(ctx, d, std::ldexp(1.0f, -gain) / lin_scale);  // exact for power-of-two scales (w2: 128)
         ggml_set_name(d, "nphL_c");
-        ggml_tensor* r = ggml_add(ctx, out, d);
-        ggml_set_name(r, "nphL_d");
-        return r;
     }
-    // 0.30.2: ADD(d, out) (commutative, bit-identical). The graph then orders the LoRA chain
-    // (A, s, B) before the base matmul group, so ggml-hexagon can fuse B + base + ADD into one
-    // HTP_OP_MUL_MAT_LORA, and the ADD output is placed in-place on d (allocated while x_s and y are
-    // still alive, so it never aliases the fused op's inputs).
-    ggml_tensor* r = ggml_add(ctx, d, out);
+    // 0.30.3: restore 0.30.1 operand order ADD(out, d). The 0.30.2 swap to ADD(d, out) changed
+    // cgraph scheduling / MUL_MAT+ADD fusion (phone profile 360 mm+420 ew vs good 210+570) and
+    // produced pure-noise images with combined LoRA even with NPH_LORA_FUSE=0. Keep 0.30.1 order.
+    ggml_tensor* r = ggml_add(ctx, out, d);
     ggml_set_name(r, "nphL_d");
     return r;
 }
@@ -364,7 +360,7 @@ inline ggml_tensor* graph_apply_deferred(ggml_context* ctx,
         ggml_set_name(y, "nphL_g");
     }
     ggml_tensor* d = graph_linear(ctx, y, B, prec_f32, "nphL_B");
-    ggml_tensor* r = ggml_add(ctx, d, out_scaled);  // 0.30.2: operand order, see graph_apply
+    ggml_tensor* r = ggml_add(ctx, out_scaled, d);  // 0.30.3: 0.30.1 order (see graph_apply)
     ggml_set_name(r, "nphL_d");
     return r;
 }

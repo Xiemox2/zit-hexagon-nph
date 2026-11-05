@@ -2885,7 +2885,9 @@ struct ggml_hexagon_opbatch {
     // Pattern (graph order from nph_lora_core.h): ... B = MUL_MAT(B16, y) "nphL_B" (op j) ...
     // base = MUL_MAT(W8, x_s)+SCALE+MUL(ws) (last op) ; ADD(B, base).
     // The base op becomes MUL_MAT_LORA (inputs W8, x_s, ws, B16, y) and op j becomes a NOP.
-    static bool nph_lora_fuse_enabled() { return ggml_backend_hexagon_nph_get_lora_fuse() != 0; }
+    // 0.30.3: hard-disable HTP_OP_MUL_MAT_LORA. The 0.30.2 graph reorder for this fuser broke
+    // the working 0.30.1 LoRA path (noise). Keep the code for reference but never enable on device.
+    static bool nph_lora_fuse_enabled() { return false; }
 
     static bool ranges_overlap(const ggml_tensor * a, const ggml_tensor * b) {
         if (!a || !b || !a->data || !b->data) return false;
