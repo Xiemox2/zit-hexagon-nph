@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ZIT-HEXAGON: hexagon-shaped NPU chip (Qualcomm Hexagon) with a "Z", wine purple on black. Safe zone: 66dp circle. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- pins -->
+    <path android:strokeColor="#FF8E2A6B" android:strokeWidth="2.6" android:strokeLineCap="round"
+        android:pathData="M76.00,48.00L81.50,48.00 M76.00,60.00L81.50,60.00 M70.20,70.05L72.95,74.82 M59.80,76.05L62.55,80.82 M48.20,76.05L45.45,80.82 M37.80,70.05L35.05,74.82 M32.00,60.00L26.50,60.00 M32.00,48.00L26.50,48.00 M37.80,37.95L35.05,33.18 M48.20,31.95L45.45,27.18 M59.80,31.95L62.55,27.18 M70.20,37.95L72.95,33.18" />
+    <!-- hexagon chip body -->
+    <path android:pathData="M54.00,29.00 L75.65,41.50 L75.65,66.50 L54.00,79.00 L32.35,66.50 L32.35,41.50Z" android:strokeLineJoin="round" android:strokeWidth="3" android:strokeColor="#FF7A2459">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="linear"
+                android:startX="34" android:startY="30" android:endX="74" android:endY="78">
+                <item android:offset="0" android:color="#FFA33A80" />
+                <item android:offset="1" android:color="#FF4F123C" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- inner bevel -->
+    <path android:strokeColor="#40F6DDEB" android:strokeWidth="1" android:pathData="M54.00,33.00 L72.19,43.50 L72.19,64.50 L54.00,75.00 L35.81,64.50 L35.81,43.50Z" />
+    <!-- Z -->
+    <path android:fillColor="#FFF6DDEB" android:pathData="M45,45L63,45L63,48.8L50.8,59.2L63,59.2L63,63L45,63L45,59.2L57.2,48.8L45,48.8Z" />
+</vector>

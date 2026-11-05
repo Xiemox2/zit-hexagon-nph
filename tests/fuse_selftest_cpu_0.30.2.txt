@@ -1,0 +1,5 @@
+f8 decoder vs ggml to_float: OK (0 mismatches / 254)
+nph_lora_fuse_selftest.hpp:229  - nph-lora-fuse: selftest case K3840/M1024/R96: fused_ops=0 rel(fused,0.30.1)=0.00e+00 diff_elems=0 rel(0.30.1,ref)=2.10e-04 rel(fused,ref)=2.10e-04 OK(no-fuse)
+nph_lora_fuse_selftest.hpp:229  - nph-lora-fuse: selftest case K10240/M512/R64/deferred: fused_ops=0 rel(fused,0.30.1)=0.00e+00 diff_elems=0 rel(0.30.1,ref)=2.10e-04 rel(fused,ref)=2.10e-04 OK(no-fuse)
+fuse_selftest_exec on CPU: PASS (4844 ms), toggle sets=5 final=1
+RESULT: ALL PASS

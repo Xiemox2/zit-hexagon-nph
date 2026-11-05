@@ -1,0 +1,17 @@
+.DS_Store
+*.o
+*.a
+*.pyc
+__pycache__/
+.gradle/
+local.properties
+**/build/
+*.jks
+*.keystore
+.idea/
+*.iml
+.cxx/
+captures/
+*.apk
+!release/*.sha256
+.secrets/

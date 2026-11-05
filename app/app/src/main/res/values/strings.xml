@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Default locale: Spanish (es-MX). Add values-en/strings.xml for English. -->
+<resources>
+    <string name="app_name">ZIT-HEXAGON</string>
+
+    <!-- Tabs -->
+    <string name="tab_generate">Generar</string>
+    <string name="tab_gallery">Galería</string>
+    <string name="tab_loras">LoRAs</string>
+    <string name="tab_models">Modelos</string>
+    <string name="tab_settings">Ajustes</string>
+
+    <!-- Common actions -->
+    <string name="action_generate">Generar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_add">Añadir</string>
+    <string name="action_remove">Quitar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_back">Atrás</string>
+    <string name="action_clear">Borrar</string>
+    <string name="action_copy">Copiar</string>
+    <string name="action_import">Importar</string>
+    <string name="action_refresh">Actualizar</string>
+
+    <!-- Generate -->
+    <string name="engine_fake">Motor simulado</string>
+    <string name="gen_manage_models">Gestionar modelos</string>
+    <string name="gen_result_empty">Tu imagen aparecerá aquí</string>
+    <string name="gen_prompt_section">Prompt</string>
+    <string name="gen_prompt_hint">Describe la imagen… (puedes escribir en inglés o en chino)</string>
+    <string name="gen_negative">Prompt negativo</string>
+    <string name="gen_negative_hint">Lo que no quieres ver…</string>
+    <string name="gen_loras_section">LoRAs · %1$d/%2$d</string>
+    <string name="model_loras_value2">%1$s · recomendado %2$d, máx. %3$d a la vez</string>
+    <string name="gen_loras_soon_title">LoRAs · próximamente</string>
+    <string name="gen_loras_soon_body">LoRA en NPH: se aplica al cargar el DiT. Si cambias LoRA o su fuerza, se recarga el DiT. Si la prueba FP8 falló, permanece desactivado.</string>
+    <string name="gen_loras_empty">Ningún LoRA activo. Toca Añadir para elegir de tu biblioteca.</string>
+    <string name="gen_lora_swap_note">Swap · se aplica al cargar el modelo</string>
+    <string name="gen_pick_loras">Elegir LoRAs</string>
+    <string name="gen_manage_loras">Biblioteca</string>
+    <string name="gen_params_section">Parámetros</string>
+    <string name="gen_upscale_section">Escalado</string>
+    <string name="gen_step_of">%1$d/%2$d</string>
+    <string name="gen_elapsed">Transcurrido: %1$s</string>
+    <string name="gen_percent">%1$d %%</string>
+
+    <string name="label_steps">Pasos</string>
+    <string name="label_cfg">CFG</string>
+    <string name="label_seed">Semilla</string>
+    <string name="label_resolution">Resolución</string>
+    <string name="label_sampler">Sampler</string>
+    <string name="label_model">Modelo</string>
+    <string name="label_size">Tamaño</string>
+    <string name="label_time">Tiempo</string>
+    <string name="label_date">Fecha</string>
+    <string name="label_upscale">Escalado</string>
+    <string name="label_upscaler_model">Modelo de escalado</string>
+    <string name="seed_random">Aleatoria</string>
+    <string name="seed_hint">p. ej. 42</string>
+    <string name="seed_new">Nueva semilla</string>
+
+    <string name="upscale_after">Escalar al terminar</string>
+    <string name="upscale_after_sub">Aplica el upscaler a cada imagen generada</string>
+    <string name="upscale_output">Salida: %1$d×%2$d px</string>
+
+    <string name="stage_loading">Cargando modelo</string>
+    <string name="stage_text_encoder">Codificando el prompt</string>
+    <string name="stage_denoise">Generando</string>
+    <string name="stage_vae">Decodificando (VAE)</string>
+    <string name="stage_upscale">Escalando</string>
+
+    <!-- Gallery -->
+    <string name="gallery_count">%1$d imágenes · %2$s</string>
+    <string name="gallery_empty_title">Aún no hay imágenes</string>
+    <string name="gallery_empty_body">Lo que generes se guarda aquí con su prompt y sus parámetros.</string>
+    <string name="detail_title">Imagen</string>
+    <string name="detail_reuse">Reusar parámetros</string>
+    <string name="detail_upscale">Escalar</string>
+    <string name="detail_upscale_to">%1$d× → %2$d×%3$d</string>
+    <string name="detail_use_as_preview">Vista previa de LoRA</string>
+    <string name="detail_save_phone">Guardar en el teléfono</string>
+    <string name="detail_delete_title">¿Eliminar esta imagen?</string>
+    <string name="detail_delete_body">Se borra el archivo y sus parámetros. No se puede deshacer.</string>
+    <string name="detail_pick_lora">Usar como vista previa de…</string>
+
+    <!-- LoRAs -->
+    <string name="loras_subtitle">%1$d en la biblioteca · tipo swap</string>
+    <string name="loras_scan">Escanear carpetas</string>
+    <string name="loras_import_files">Importar archivos .safetensors</string>
+    <string name="loras_import_folder">Importar una carpeta…</string>
+    <string name="loras_scan_shared">Escanear Descargas/ZITHEXAGON/loras</string>
+    <string name="loras_search">Buscar por nombre o palabra clave</string>
+    <string name="loras_empty_title">Tu biblioteca de LoRAs está vacía</string>
+    <string name="loras_empty_body">Importa LoRAs de Z-Image Turbo (.safetensors) desde el selector de archivos, o cópialos a Descargas/ZITHEXAGON/loras y escanea la carpeta.</string>
+    <string name="loras_folder_hint">También se leen en su sitio los LoRAs de Descargas/%1$s/loras (requiere acceso a todos los archivos).</string>
+    <string name="lora_use_in_generate">Usar en Generar</string>
+    <string name="lora_src_app">Copiado en la app</string>
+    <string name="lora_src_folder">En carpeta compartida</string>
+    <string name="lora_file_missing">archivo no encontrado</string>
+    <string name="lora_missing">No está en la biblioteca</string>
+    <string name="lora_no_triggers">Sin palabras clave</string>
+    <string name="lora_edit_title">Editar LoRA</string>
+    <string name="lora_preview">Vista previa</string>
+    <string name="lora_preview_phone">Desde el teléfono</string>
+    <string name="lora_preview_app">Desde mis imágenes</string>
+    <string name="lora_preview_clear">Quitar vista previa</string>
+    <string name="lora_general">General</string>
+    <string name="lora_name">Nombre</string>
+    <string name="lora_default_strength">Fuerza por defecto</string>
+    <string name="lora_triggers">Palabras clave</string>
+    <string name="lora_triggers_hint">En Generar aparecen como chips: tócalos para añadirlos al prompt o quitarlos.</string>
+    <string name="lora_add_trigger">Nueva palabra clave (separa con comas)</string>
+    <string name="lora_file">Archivo</string>
+    <string name="lora_file_name">Nombre</string>
+    <string name="lora_file_size">Tamaño</string>
+    <string name="lora_file_source">Origen</string>
+    <string name="lora_file_path">Ruta</string>
+    <string name="lora_type">Tipo</string>
+    <string name="lora_type_swap">Swap: los pesos se fusionan en el modelo al cargarlo; cambiar de LoRA recarga el transformer.</string>
+    <string name="lora_delete_title">¿Eliminar %1$s?</string>
+    <string name="lora_delete_body_app">Se quita de la biblioteca y se borra la copia guardada en la app.</string>
+    <string name="lora_delete_body_folder">Se quita de la biblioteca. El archivo de la carpeta compartida no se toca (volverá al escanear).</string>
+
+    <!-- Models -->
+    <string name="models_subtitle">%1$d disponibles · Z-Image Turbo</string>
+    <string name="models_import_zip">Importar paquete .zip</string>
+    <string name="models_import_folder">Importar carpeta de modelo…</string>
+    <string name="models_export_template">Exportar plantilla zit.json</string>
+    <string name="models_format_title">Formato NPH</string>
+    <string name="models_format_body">NPH usa 3 archivos (DiT FP8, TE Qwen3 GGUF, VAE ae), no el paquete QNN con zit.json. Impórtalos aquí o déjalos en Descargas/%2$s/sdcpp. El manifiesto %1$s de paquetes QNN ya no se usa en 0.26.</string>
+    <string name="model_src_demo">Demo</string>
+    <string name="model_src_app">En la app</string>
+    <string name="model_src_shared">Descargas</string>
+    <string name="model_selected">Seleccionado</string>
+    <string name="model_missing_files">Faltan %1$d archivos: %2$s</string>
+    <string name="model_id">ID</string>
+    <string name="model_defaults">Por defecto</string>
+    <string name="model_defaults_value">%1$d pasos · CFG %2$s · %3$s · %4$d×%5$d</string>
+    <string name="model_loras">LoRAs</string>
+    <string name="model_loras_value">%1$s · máx. %2$d a la vez</string>
+    <string name="model_target">Destino</string>
+    <string name="model_use">Usar</string>
+    <string name="model_in_use">En uso</string>
+    <string name="model_delete_title">¿Eliminar %1$s?</string>
+    <string name="model_delete_body">Se liberan %1$s. Tendrás que importarlo de nuevo para usarlo.</string>
+
+    <!-- Settings -->
+    <string name="settings_storage">Almacenamiento</string>
+    <string name="settings_models_dir">Modelos</string>
+    <string name="settings_loras_dir">LoRAs</string>
+    <string name="settings_outputs_dir">Imágenes generadas</string>
+    <string name="settings_shared_dir">Carpeta compartida (USB)</string>
+    <string name="settings_free">Espacio libre: %1$s</string>
+    <string name="settings_all_files">Acceso a todos los archivos</string>
+    <string name="settings_all_files_on">Concedido: se leen modelos y LoRAs de Descargas/ZITHEXAGON sin copiarlos</string>
+    <string name="settings_all_files_off">Opcional: para leer Descargas/ZITHEXAGON sin copiar los archivos</string>
+    <string name="settings_copy_phone">Copiar a la galería del teléfono</string>
+    <string name="settings_copy_phone_sub">Guarda también cada imagen en Imágenes/ZIT-HEXAGON</string>
+    <string name="settings_appearance">Apariencia</string>
+    <string name="settings_accent">Color de acento</string>
+    <string name="settings_accent_text_sample">Texto de acento sobre negro</string>
+    <string name="settings_dark_only">Tema oscuro (negro profundo) siempre.</string>
+    <string name="settings_engine">Motor</string>
+    <string name="settings_engine_name">Motor</string>
+    <string name="settings_engine_backend">Backend</string>
+    <string name="settings_target">Dispositivo</string>
+    <string name="settings_target_value">SM8850 · Hexagon HTP v81 · NPH (sd.cpp)</string>
+    <string name="settings_engine_fake_note">Demo: motor simulado. Para generar de verdad, importa DiT FP8 + TE Qwen3 + VAE (NPH) en Modelos.</string>
+    <string name="settings_about">Acerca de</string>
+
+    <string name="accent_vino">Vino</string>
+    <string name="accent_ciruela">Ciruela</string>
+    <string name="accent_burdeos">Burdeos</string>
+    <string name="accent_orquidea">Orquídea</string>
+
+    <string name="access_title">Acceso a la carpeta compartida</string>
+    <string name="access_body">Para leer los archivos de Descargas/%1$s sin copiarlos, Android pide «Acceso a todos los archivos». También puedes importarlos con el selector de archivos sin dar este permiso.</string>
+    <string name="access_grant">Conceder</string>
+
+    <!-- About -->
+    <string name="about_title">Licencias y créditos</string>
+    <string name="about_version">Versión %1$s</string>
+    <string name="about_tagline">Z-Image Turbo en Hexagon con NPH (sd.cpp). Proyecto personal, sin nube.</string>
+    <string name="about_models">Modelos</string>
+    <string name="about_reazit">Modelo personalizado del autor, basado en Z-Image Turbo (licencia por definir)</string>
+    <string name="about_upscalers">Modelos de escalado</string>
+    <string name="about_pending">Por definir</string>
+    <string name="about_runtime">Runtime</string>
+    <string name="about_qnn">Qualcomm Technologies · licencia del SDK (pendiente de incluir el aviso)</string>
+    <string name="about_libs">Bibliotecas de código abierto</string>
+    <string name="about_thanks">Agradecimientos</string>
+    <string name="about_inspiration">Interfaz inspirada en Local Dream y Nightmare Mobile (solo como referencia de diseño; no incluye su código).</string>
+    <string name="about_noncommercial">Uso personal, no comercial.</string>
+
+    <!-- Busy / messages -->
+    <string name="busy_importing">Importando…</string>
+    <string name="busy_scanning">Escaneando carpetas…</string>
+    <string name="busy_saving">Guardando…</string>
+    <string name="msg_prompt_empty">Escribe un prompt primero</string>
+    <string name="msg_error">Error: %1$s</string>
+    <string name="msg_share_detail">Compartir detalle</string>
+    <string name="msg_released">Memoria liberada: contexto NPH descargado</string>
+    <string name="action_release">Liberar memoria (descargar modelo)</string>
+    <string name="notif_channel">Inferencia</string>
+    <string name="notif_channel_desc">Progreso de la generación y modelo NPH cargado</string>
+    <string name="notif_title_gen">Generando imagen</string>
+    <string name="notif_title_upscale">Escalando imagen</string>
+    <string name="notif_loading">Cargando modelo NPH</string>
+    <string name="notif_text">Codificando el prompt</string>
+    <string name="notif_denoise">Difusión</string>
+    <string name="notif_step">Paso %1$d/%2$d</string>
+    <string name="notif_vae">Decodificando (VAE)</string>
+    <string name="notif_upscale">Escalando (Real-ESRGAN)</string>
+    <string name="notif_cancel">Cancelar</string>
+    <string name="notif_release">Liberar</string>
+    <string name="notif_done">Imagen lista</string>
+    <string name="notif_failed">La generación falló</string>
+    <string name="notif_cancelled">Generación cancelada</string>
+    <string name="notif_idle_title">ZIT-HEXAGON</string>
+    <string name="notif_tap_open">Toca para verla</string>
+    <string name="notif_model_loaded">Modelo NPH cargado (Liberar o desliza para descargarlo)</string>
+    <string name="notif_model_not_loaded">Modelo no cargado</string>
+    <string name="msg_cancelled">Generación cancelada</string>
+    <string name="msg_busy">Espera a que termine el trabajo actual</string>
+    <string name="msg_upscaled">Imagen escalada a %1$d×%2$d</string>
+    <string name="msg_deleted">Eliminado</string>
+    <string name="msg_params_reused">Parámetros cargados en Generar</string>
+    <string name="msg_saved_phone">Guardada en Imágenes/ZIT-HEXAGON</string>
+    <string name="msg_lora_limit">Máximo %1$d LoRAs a la vez</string>
+    <string name="msg_loras_imported">%1$d LoRAs importados</string>
+    <string name="msg_loras_found">%1$d LoRAs nuevos encontrados</string>
+    <string name="msg_preview_set">Vista previa actualizada</string>
+    <string name="msg_model_imported">Modelo importado: %1$s</string>
+    <string name="action_ok">Aceptar</string>
+    <string name="lora_strength">Fuerza</string>
+    <string name="lora_strength_reset">Restablecer a 1.00</string>
+    <string name="lora_strength_exact">Fuerza exacta</string>
+    <string name="lora_strength_range">Entre −3.00 y 3.00, en pasos de 0.05. Los valores negativos sirven para LoRAs deslizadores.</string>
+    <string name="lora_many_warning">Más de %1$d LoRAs puede bajar la calidad y la velocidad</string>
+    <string name="label_scheduler">Scheduler</string>
+    <string name="upscaler_realism">Realista</string>
+    <string name="upscaler_anime">Anime</string>
+    <string name="upscaler_nc">No comercial</string>
+    <string name="about_upscalers_note">Los modelos con licencia CC BY-NC-SA 4.0 solo pueden usarse sin fines comerciales.</string>
+    <string name="crash_title">La app se cerró inesperadamente</string>
+    <string name="crash_body">Se guardó un reporte con el motivo del cierre. Puedes compartirlo (por ejemplo, por mensajería o correo) para que se pueda corregir.</string>
+    <string name="perf_details">Detalles de tiempo</string>
+    <string name="perf_share">Compartir</string>
+    <string name="perf_close">Cerrar</string>
+    <string name="settings_diag">Diagnóstico</string>
+    <string name="settings_diag_desc">Muestra info del motor NPH, MemAvailable y las rutas DiT/TE/VAE seleccionadas.</string>
+    <string name="settings_diag_bench">Probar bloque de prueba</string>
+    <string name="settings_debug_dump">Volcar el bloque 0 (depuración)</string>
+    <string name="settings_debug_dump_sub">En el paso 1, guarda las entradas y la salida del bloque 0 en Download/ZITHEXAGON/debug (~80 MB por imagen) para reproducirlas en el PC. Si existe test/zit-test-c0-noudma.bin (o en Descargas), el bloque 0 se carga desde ese archivo (prueba A/B sin UDMA).</string>
+    <string name="bench_none">No encontré ningún archivo zit-test-*.bin en Descargas, Download/ZITHEXAGON ni Download/ZITHEXAGON/test. Descárgalo del folder test/ del repo (y revisa que la app tenga permiso de acceso a todos los archivos).</string>
+    <string name="bench_releasing">Liberando memoria…</string>
+    <string name="settings_perf">Rendimiento</string>
+    <string name="settings_perf_has">Desglose de tiempos de las últimas generaciones (cada imagen también guarda el suyo en la galería).</string>
+    <string name="settings_perf_none">Todavía no hay registros de rendimiento. Genera una imagen primero.</string>
+    <string name="settings_perf_share">Compartir log de rendimiento</string>
+    <string name="crash_share">Compartir reporte de error</string>
+    <string name="crash_dismiss">Descartar</string>
+    <string name="crash_startup_title">No se pudo iniciar ZIT-HEXAGON</string>
+    <string name="crash_startup_body">Ocurrió un error al arrancar. La app no se cierra: abajo tienes el detalle. Compártelo para poder corregirlo.</string>
+    <string name="settings_crash">Reporte de error</string>
+    <string name="settings_crash_none">No hay ningún reporte de error guardado.</string>
+    <string name="settings_crash_has">Hay un reporte del último cierre inesperado.</string>
+    <string name="settings_crash_clear">Borrar reporte</string>
+    <string name="resolution_fixed">%1$d × %2$d (fija)</string>
+    <string name="battery_saver_title">Ahorro de batería activado</string>
+    <string name="battery_saver_body">Android limita la CPU y la NPU: la generación puede tardar mucho más o fallar. Desactívalo mientras generas.</string>
+    <string name="battery_saver_action">Ajustes</string>
+    <string name="label_exec_mode">Modo de residencia NPH</string>
+    <string name="exec_mode_extremo_sub">Extremo: DiT+VAE quedan residentes entre imágenes (TE se carga, codifica y libera). Más rápido en la 2.ª imagen; libera si hay poca RAM.</string>
+    <string name="exec_mode_seguro_sub">Seguro: libera DiT+VAE+TE tras cada imagen (menos RAM, más lento al volver a generar).</string>
+    <string name="exec_mode_settings_note">También se puede cambiar desde Generar › Parámetros. El informe de cada imagen indica el modo usado y los tiempos por paso.</string>
+    <string name="nph_lora_reload_note">NPH aplica el LoRA al cargar el DiT. Si cambias LoRA o su fuerza, se recarga el DiT (la 1ª imagen tras el cambio tarda como la primera).</string>
+
+    <!-- 0.26 NPH -->
+    <string name="settings_nph_profile">Perfil HTP</string>
+    <string name="settings_nph_profile_sub">Registra tiempo por op (HMX / HVX / CPU / wait·FastRPC) en el informe. Aplica al recrear el contexto.</string>
+    <string name="settings_nph_advanced">Avanzado (Hexagon v81)</string>
+    <string name="settings_nph_advanced_note">Knobs GGML_HEXAGON_*. Vacío = default del motor. Efecto en el teléfono no medido en esta build de box (CPU). No bajan la precisión (FP8 / FP32 / Q8_0).</string>
+    <string name="settings_nph028">Mejoras NPH (carga rápida y caché del prompt)</string>
+    <string name="settings_nph028_note">Mejoras de carga del DiT y caché del prompt, activas por defecto. Salida idéntica bit a bit. Cambiar una de carga libera el motor.</string>
+    <string name="settings_nph_fast_repack">Repack FP8 rápido</string>
+    <string name="settings_nph_fast_repack_sub">Reordena los pesos FP8 al formato NPU con NEON y varios hilos (mismos bytes que el método anterior).</string>
+    <string name="settings_nph_parallel_set">Subida en paralelo</string>
+    <string name="settings_nph_parallel_set_sub">El repack de pesos ya no espera al candado global del cargador.</string>
+    <string name="settings_nph_fast_read">Lectura rápida de archivo</string>
+    <string name="settings_nph_fast_read_sub">pread en bloques de 16 MiB + posix_fadvise secuencial.</string>
+    <string name="settings_nph_buf_pool">Reusar buffers NPU</string>
+    <string name="settings_nph_buf_pool_sub">Reutiliza buffers de cómputo ya mapeados (rpcmem/mmap) en vez de crearlos de nuevo. Nunca sube el pico de RAM.</string>
+    <string name="settings_nph_prefetch_dit">Precarga del DiT durante TE</string>
+    <string name="settings_nph_prefetch_dit_sub">Lee el DiT (o su caché) a la caché del SO mientras corre el text encoder, solo en la 1.ª imagen tras crear el motor.</string>
+    <string name="settings_nph_repack_cache">Caché del DiT ya reordenado</string>
+    <string name="settings_nph_repack_cache_sub">Guarda en almacenamiento interno el DiT ya en formato NPU (~6 GB) y lo valida (tamaño, fecha, hash, versión, checksum). La 1.ª carga escribe la caché (más lenta); las siguientes se saltan el repack.</string>
+    <string name="settings_nph_cache_size">Caché: %1$s · libre en el teléfono: %2$s</string>
+    <string name="settings_nph_cache_low">Poco espacio libre: la caché no se escribirá si no cabe (+512 MB de margen).</string>
+    <string name="settings_nph_cache_clear">Borrar caché</string>
+    <string name="settings_nph_reset">Restaurar mejoras predeterminadas</string>
+    <string name="settings_nph_exp">Experimental (NPH 0.29)</string>
+    <string name="settings_nph_exp_note">Apagado por defecto. Sin medir en el teléfono; cada opción aparece en el reporte.</string>
+    <string name="settings_nph_te_cache">Reutilizar el prompt (caché del text encoder)</string>
+    <string name="settings_nph_te_cache_sub">Si repites un prompt (misma resolución, LoRAs y modelo), reutiliza el resultado del TE y se salta ese paso. Imagen idéntica. Guarda hasta 4 prompts en RAM.</string>
+    <string name="settings_nph_te_cache_disk">Guardar también en disco</string>
+    <string name="settings_nph_te_cache_disk_sub">La caché del prompt sobrevive al liberar el motor o reiniciar la app (máx. 128 MB en nph-cache/te; se verifica antes de usarla).</string>
+    <string name="settings_npg_title">NPG (NPU + GPU)</string>
+    <string name="settings_npg_note">Apagado por defecto. El TE y el DiT siguen en la NPU. Si algo falla en la GPU, vuelve sola a la NPU y lo anota en el reporte (bloque «NPG»).</string>
+    <string name="settings_npg_vae">NPG: VAE en GPU (Adreno, OpenCL)</string>
+    <string name="settings_npg_vae_sub">Decodifica la imagen en la GPU con ggml-opencl (pesos FP16, cálculo y acumulación FP32; nunca menos precisión). La 1.ª vez compila kernels (puede tardar).</string>
+    <string name="settings_nph_lora_combined">LoRAs combinados (1 matmul por capa)</string>
+    <string name="settings_nph_lora_combined_sub">Une todas las LoRAs en un solo par A/B por capa (rango concatenado, múltiplo de 32) para la NPU (HMX). Pesos FP16 exactos + escala FP32, acumulación FP32: nunca menos precisión que el archivo LoRA. Se guarda en disco (caché LoRA, se reconstruye si cambian archivos o fuerzas).</string>
+    <string name="settings_nph_lora_fuse">LoRA fusionada en la NPU (HMX) [experimental]</string>
+    <string name="settings_nph_lora_fuse_sub">Calcula escala·(B·(A·x)) dentro del matmul HMX de la capa base (acumulación y escala FP32, sin perder precisión). Se autoverifica una vez por sesión con datos sintéticos; si falla, vuelve sola al camino 0.30.1. Apagado por defecto: el op fusionado en HMX no se ha validado en el teléfono. Actívalo solo si quieres probarlo; si falla, la app vuelve sola al camino 0.30.1.</string>
+    <string name="settings_npg_mm_f32">NPG: mul_mat GPU con acumulación FP32</string>
+    <string name="settings_npg_mm_f32_sub">Desactiva el GEMM «xmem» de Adreno (acumula en FP16) y usa el kernel con acumulación FP32. Recomendado. Cambiarlo aplica tras reiniciar la app.</string>
+    <string name="settings_npg_part_fb">NPG: revisar cada parte y rehacer en NPU</string>
+    <string name="settings_npg_part_fb_sub">Revisa la salida del VAE en GPU (NaN/Inf, desbordamiento, error OpenCL) y rehace solo la parte que falla en la NPU. Un fallo fatal del driver se cubre con el bloqueo por cierre.</string>
+    <string name="settings_npg_mm_npu">NPG: matmul/atención del VAE en la NPU (experimental)</string>
+    <string name="settings_npg_mm_npu_sub">Ejecuta los mul_mat y la atención del VAE en la NPU y el resto en la GPU. Más copias GPU↔NPU; sin medir.</string>
+    <string name="settings_npg_selftest">NPG: autoprueba sintética</string>
+    <string name="settings_npg_selftest_sub">Antes de usar la GPU prueba conv/norm/atención con datos pequeños (sin modelo) contra una referencia de doble precisión. Si falla, usa la NPU.</string>
+    <string name="settings_npg_blocked">Desactivado tras un cierre inesperado durante NPG: %1$s. Vuelve a activar el interruptor para reintentar.</string>
+    <string name="settings_npg_skipped">No incluidos en 0.29: solapar el VAE de una imagen con la siguiente (la app no genera N seguidas) y TE en NPU ∥ GPU (ver LEEME).</string>
+    <string name="settings_nph_exp_prefetch_vae">Precarga del VAE</string>
+    <string name="settings_nph_exp_prefetch_vae_sub">Lee el VAE a la caché del SO durante los pasos del sampler (1.ª imagen).</string>
+    <string name="settings_nph_page_cache">Calentar page-cache</string>
+    <string name="settings_nph_page_cache_sub">Lee DiT/TE/VAE a caché del SO antes de cargar (idéntico en salida; 1.ª carga más rápida). Por defecto ON.</string>
+    <string name="settings_nph_graph_cache">Cache DiT (Extremo)</string>
+    <string name="settings_nph_graph_cache_sub">Reutiliza buffers gallocr/HTP entre generaciones Extremo a la misma resolución (quita ~8 s del 1.er paso). Por defecto ON; idéntico en bits.</string>
+    <string name="settings_nph_overlap">Solapar DiT ∥ TE (opt-in)</string>
+    <string name="settings_nph_overlap_sub">Calienta DiT+VAE y TE en paralelo. Aprox. de solapar carga DiT con TE; sin cambio de precisión. No medido.</string>
+    <string name="settings_nph_cpu_offload">Más CPU en el grafo (opt-in)</string>
+    <string name="settings_nph_cpu_offload_sub">MM_SELECT=1 (Flat→CPU). CPU ahora ~0.2 núcleos; puede ayudar ops idle. No medido; puede cambiar tiempos.</string>
+    <string name="settings_nph_nhvx">NHVX (hilos HVX)</string>
+    <string name="settings_nph_nhmx">NHMX (1=HMX, 0=solo HVX)</string>
+    <string name="settings_nph_opbatch">OPBATCH (ops por lote)</string>
+    <string name="settings_nph_opqueue">OPQUEUE (lotes en cola)</string>
+    <string name="settings_nph_opfusion">OPFUSION (1=todas)</string>
+    <string name="settings_nph_vmem">VMEM MiB (tiling VTCM)</string>
+    <string name="settings_nph_mbuf">MBUF MiB (máx buffer)</string>
+    <string name="settings_nph_default_hint">vacío = default</string>
+    <string name="nph_models_title">Modelos NPH (DiT · TE · VAE)</string>
+    <string name="nph_models_hint">Detecta por contenido (como SdBench). Preferí «usar sin copiar»; si no, copia a la app. Ruta fácil: SdBench 0.1.2 → Exportar a Descargas/ZITHEXAGON/sdcpp.</string>
+    <string name="nph_pick_file">Elegir archivo</string>
+    <string name="nph_scan">Escanear Descargas</string>
+    <string name="nph_use_inplace">Usar sin copiar</string>
+    <string name="nph_copy">Copiar a la app</string>
+    <string name="nph_ready">NPH listo · %1$s</string>
+    <string name="nph_missing">Falta seleccionar DiT FP8, TE Qwen3 y VAE</string>
+    <string name="about_nph">Motor NPH (sd.cpp Hexagon / ggml-htp, fork happyyzy)</string>
+    <string name="about_nph_detail">MIT · HMX/HVX via FastRPC · skels v79+v81</string>
+
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="zit_black">#FF000000</color>
+    <color name="zit_surface">#FF0E0B0D</color>
+    <color name="zit_wine">#FF7D2560</color>
+    <color name="zit_wine_dark">#FF4A1239</color>
+    <color name="zit_wine_light">#FFE7A6CF</color>
+</resources>

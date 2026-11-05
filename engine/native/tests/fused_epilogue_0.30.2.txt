@@ -1,0 +1,6 @@
+plain (lin 1, attn/w1/w3)      S=3.1488 P=1: 0 / 20000000 bit mismatches
+deferred w2 (g=3, 1/128)       S=25.1904 P=16: 0 / 20000000 bit mismatches
+deferred w2 (g=0, 1/128)       S=1.87136 P=128: 0 / 20000000 bit mismatches
+deferred w2 (g=7, 1/128)       S=711.066 P=1: 0 / 20000000 bit mismatches
+control: non-pow2 P=0.3 (refused by the fuser): 487709 / 1000000 mismatches (expected > 0)
+RESULT: ALL PASS (bit-identical) (0 mismatches in 80000000)

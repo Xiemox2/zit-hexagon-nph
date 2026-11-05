@@ -1,0 +1,64 @@
+attention.qkv.weight [f16 x0.9]: R=96 Rp=96 shifted=0 split=0 inexact=0
+  CPU  attention.qkv.weight [f16 x0.9]    out rel-l2 new=0.000207 old=0.000207 | delta rel-l2 new=0.00541 old=0.00541 | max|new-old|/max|out|=6.2e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000411 per-LoRA=0.00036 | rel-max combined=0.000397 per-LoRA=0.000314
+  HMX-emu FTZ  delta rel-l2 combined=0.00156 per-LoRA=0.00154 | rel-max combined=0.000827 per-LoRA=0.000822
+attention.qkv.weight [bf16 x0.7]: R=202 Rp=224 shifted=175 split=85 inexact=0
+  CPU  attention.qkv.weight [bf16 x0.7]   out rel-l2 new=0.000207 old=0.000207 | delta rel-l2 new=0.0143 old=0.0143 | max|new-old|/max|out|=1.6e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000417 per-LoRA=0.000365 | rel-max combined=0.000793 per-LoRA=0.000882
+  HMX-emu FTZ  delta rel-l2 combined=0.000443 per-LoRA=0.00156 | rel-max combined=0.000793 per-LoRA=0.00114
+attention.qkv.weight [f16 x0.9 + bf16 x0.7]: R=298 Rp=320 shifted=175 split=85 inexact=0
+  CPU  attention.qkv.weight [f16 x0.9 + bf16 x0.7] out rel-l2 new=0.000207 old=0.000207 | delta rel-l2 new=0.00507 old=0.00507 | max|new-old|/max|out|=6.17e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000411 per-LoRA=0.00036 | rel-max combined=0.000311 per-LoRA=0.000324
+  HMX-emu FTZ  delta rel-l2 combined=0.00146 per-LoRA=0.00154 | rel-max combined=0.000856 per-LoRA=0.00083
+attention.out.weight [f16 x0.9]: R=32 Rp=32 shifted=0 split=0 inexact=0
+  CPU  attention.out.weight [f16 x0.9]    out rel-l2 new=0.00021 old=0.00021 | delta rel-l2 new=0.00573 old=0.00573 | max|new-old|/max|out|=2.64e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000418 per-LoRA=0.000354 | rel-max combined=0.000398 per-LoRA=0.00045
+  HMX-emu FTZ  delta rel-l2 combined=0.00157 per-LoRA=0.00156 | rel-max combined=0.000867 per-LoRA=0.00087
+attention.out.weight [bf16 x0.7]: R=81 Rp=96 shifted=55 split=39 inexact=0
+  CPU  attention.out.weight [bf16 x0.7]   out rel-l2 new=0.000209 old=0.000209 | delta rel-l2 new=0.0134 old=0.0134 | max|new-old|/max|out|=1.03e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000409 per-LoRA=0.000356 | rel-max combined=0.000406 per-LoRA=0.000354
+  HMX-emu FTZ  delta rel-l2 combined=0.000424 per-LoRA=0.00154 | rel-max combined=0.000406 per-LoRA=0.000761
+attention.out.weight [f16 x0.9 + bf16 x0.7]: R=113 Rp=128 shifted=55 split=39 inexact=0
+  CPU  attention.out.weight [f16 x0.9 + bf16 x0.7] out rel-l2 new=0.000211 old=0.000211 | delta rel-l2 new=0.00529 old=0.00529 | max|new-old|/max|out|=2.31e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000419 per-LoRA=0.000354 | rel-max combined=0.00035 per-LoRA=0.000445
+  HMX-emu FTZ  delta rel-l2 combined=0.00145 per-LoRA=0.00155 | rel-max combined=0.000853 per-LoRA=0.00085
+feed_forward.w1.weight [f16 x0.9]: R=32 Rp=32 shifted=0 split=0 inexact=0
+  CPU  feed_forward.w1.weight [f16 x0.9]  out rel-l2 new=0.000204 old=0.000204 | delta rel-l2 new=0.00553 old=0.00553 | max|new-old|/max|out|=5.12e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000424 per-LoRA=0.000361 | rel-max combined=0.000609 per-LoRA=0.000647
+  HMX-emu FTZ  delta rel-l2 combined=0.00158 per-LoRA=0.00157 | rel-max combined=0.000905 per-LoRA=0.000898
+feed_forward.w1.weight [bf16 x0.7]: R=84 Rp=96 shifted=58 split=41 inexact=0
+  CPU  feed_forward.w1.weight [bf16 x0.7] out rel-l2 new=0.000204 old=0.000204 | delta rel-l2 new=0.0138 old=0.0138 | max|new-old|/max|out|=2.61e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000424 per-LoRA=0.000366 | rel-max combined=0.000486 per-LoRA=0.000421
+  HMX-emu FTZ  delta rel-l2 combined=0.000439 per-LoRA=0.00151 | rel-max combined=0.000486 per-LoRA=0.000611
+feed_forward.w1.weight [f16 x0.9 + bf16 x0.7]: R=116 Rp=128 shifted=58 split=41 inexact=0
+  CPU  feed_forward.w1.weight [f16 x0.9 + bf16 x0.7] out rel-l2 new=0.000203 old=0.000203 | delta rel-l2 new=0.00512 old=0.00513 | max|new-old|/max|out|=5.62e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000423 per-LoRA=0.000362 | rel-max combined=0.000876 per-LoRA=0.000644
+  HMX-emu FTZ  delta rel-l2 combined=0.00148 per-LoRA=0.00156 | rel-max combined=0.000932 per-LoRA=0.000988
+feed_forward.w3.weight [f16 x0.9]: R=32 Rp=32 shifted=0 split=0 inexact=0
+  CPU  feed_forward.w3.weight [f16 x0.9]  out rel-l2 new=0.000209 old=0.000209 | delta rel-l2 new=0.00536 old=0.00536 | max|new-old|/max|out|=6.54e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000412 per-LoRA=0.000353 | rel-max combined=0.000529 per-LoRA=0.000459
+  HMX-emu FTZ  delta rel-l2 combined=0.00155 per-LoRA=0.00154 | rel-max combined=0.000745 per-LoRA=0.00074
+feed_forward.w3.weight [bf16 x0.7]: R=80 Rp=96 shifted=57 split=39 inexact=0
+  CPU  feed_forward.w3.weight [bf16 x0.7] out rel-l2 new=0.000209 old=0.000209 | delta rel-l2 new=0.0139 old=0.0139 | max|new-old|/max|out|=2.17e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000407 per-LoRA=0.000349 | rel-max combined=0.0006 per-LoRA=0.000522
+  HMX-emu FTZ  delta rel-l2 combined=0.000424 per-LoRA=0.00151 | rel-max combined=0.0006 per-LoRA=0.00116
+feed_forward.w3.weight [f16 x0.9 + bf16 x0.7]: R=112 Rp=128 shifted=57 split=39 inexact=0
+  CPU  feed_forward.w3.weight [f16 x0.9 + bf16 x0.7] out rel-l2 new=0.00021 old=0.00021 | delta rel-l2 new=0.005 old=0.005 | max|new-old|/max|out|=6.48e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000413 per-LoRA=0.000353 | rel-max combined=0.000492 per-LoRA=0.000464
+  HMX-emu FTZ  delta rel-l2 combined=0.00146 per-LoRA=0.00154 | rel-max combined=0.00074 per-LoRA=0.000746
+feed_forward.w2.weight [f16 x0.9]: R=32 Rp=32 shifted=0 split=0 inexact=0
+  CPU  feed_forward.w2.weight [f16 x0.9]  deferred-unscale graph vs combined: 0 / 184320 values differ (bit-exact expected)
+  CPU  feed_forward.w2.weight [f16 x0.9]  out rel-l2 new=0.000209 old=0.000209 | delta rel-l2 new=0.00552 old=0.00552 | max|new-old|/max|out|=4.24e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000423 per-LoRA=0.000364 | rel-max combined=0.000683 per-LoRA=0.000315
+  HMX-emu FTZ  delta rel-l2 combined=0.00175 per-LoRA=0.00248 | rel-max combined=0.00109 per-LoRA=0.00153
+feed_forward.w2.weight [bf16 x0.7]: R=84 Rp=96 shifted=61 split=40 inexact=0
+  CPU  feed_forward.w2.weight [bf16 x0.7] deferred-unscale graph vs combined: 0 / 184320 values differ (bit-exact expected)
+  CPU  feed_forward.w2.weight [bf16 x0.7] out rel-l2 new=0.000208 old=0.000208 | delta rel-l2 new=0.0136 old=0.0136 | max|new-old|/max|out|=2.62e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000424 per-LoRA=0.00036 | rel-max combined=0.000736 per-LoRA=0.000485
+  HMX-emu FTZ  delta rel-l2 combined=0.00129 per-LoRA=0.00242 | rel-max combined=0.000956 per-LoRA=0.00123
+feed_forward.w2.weight [f16 x0.9 + bf16 x0.7]: R=116 Rp=128 shifted=61 split=40 inexact=0
+  CPU  feed_forward.w2.weight [f16 x0.9 + bf16 x0.7] deferred-unscale graph vs combined: 0 / 184320 values differ (bit-exact expected)
+  CPU  feed_forward.w2.weight [f16 x0.9 + bf16 x0.7] out rel-l2 new=0.000208 old=0.000208 | delta rel-l2 new=0.00511 old=0.00511 | max|new-old|/max|out|=4.08e-05
+  HMX-emu IEEE delta rel-l2 combined=0.000423 per-LoRA=0.000364 | rel-max combined=0.000621 per-LoRA=0.00033
+  HMX-emu FTZ  delta rel-l2 combined=0.00166 per-LoRA=0.00247 | rel-max combined=0.000972 per-LoRA=0.00169
+RESULT: ALL PASS

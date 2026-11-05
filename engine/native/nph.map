@@ -1,0 +1,4 @@
+{
+  global: JNI_OnLoad; Java_com_zithexagon_engine_NphNative_*;
+  local: *;
+};

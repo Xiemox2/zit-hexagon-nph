@@ -1,0 +1,22 @@
+ZIT-HEXAGON NPH
+===============
+
+This project includes code derived from:
+
+1) happyyzy/stable-diffusion.cpp (MIT)
+   https://github.com/happyyzy/stable-diffusion.cpp
+   Copyright (c) 2023 leejet and contributors; Hexagon/Adreno paths by happyyzy and contributors.
+
+2) happyyzy/ggml and ggml-hexagon (MIT)
+   https://github.com/happyyzy/ggml
+   Based on ggml (MIT) by Georgi Gerganov and contributors.
+
+NPH-specific changes (unified FP16 LoRA, caches, residency, HTP profiling, JNI,
+optional experimental fused HMX LoRA) are original work under the MIT License
+in LICENSE.
+
+This repository does NOT include any code from Local Dream or Nightmare Mobile
+(those projects are CC BY-NC 4.0). Comparison text in docs/ describes ideas only.
+
+Models and weights (ReaZIT, LoRAs, text encoders, VAE, etc.) are NOT included.
+Obtain them from their public upstream sources under their own licences.

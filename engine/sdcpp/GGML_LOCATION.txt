@@ -1,0 +1,1 @@
+Vendored ggml is at engine/ggml. Symlink engine/sdcpp/ggml -> ../ggml keeps upstream CMake paths.

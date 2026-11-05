@@ -1,0 +1,33 @@
+model_loader.cpp:202  - load /tmp/nph_sg_a.safetensors using safetensors format
+model_loader.cpp:270  - init from '/tmp/nph_sg_a.safetensors', prefix = 'lora.'
+model_loader.cpp:202  - load /tmp/nph_sg_b.safetensors using safetensors format
+model_loader.cpp:270  - init from '/tmp/nph_sg_b.safetensors', prefix = 'lora.'
+model_loader.cpp:179  - using 4 threads for model loading
+gen1: set_loras before any runner                                          OK (got accepted)
+model_manager_files.cpp:58   - cannot update model sources during execution
+gen1 executing: change LoRA set (must be rejected)                         OK (got rejected)
+gen2 idle: same LoRAs (0.30.1 failed here)                                 OK (got accepted)
+gen2 idle: changed strength                                                OK (got accepted)
+model_loader.cpp:179  - using 4 threads for model loading
+gen2 idle: changed LoRA set (one file removed)                             OK (got accepted)
+model_loader.cpp:202  - load /tmp/nph_sg_a.safetensors using safetensors format
+model_loader.cpp:270  - init from '/tmp/nph_sg_a.safetensors', prefix = 'lora.'
+model_loader.cpp:179  - using 4 threads for model loading
+gen2 idle: back to both                                                    OK (got accepted)
+model_manager_files.cpp:58   - cannot update model sources during execution
+gen2 executing: change LoRA set (must be rejected)                         OK (got rejected)
+gen2 executing: identical set (no-op, accepted)                            OK (got accepted)
+gen3 idle: no LoRAs                                                        OK (got accepted)
+model_manager_files.cpp:58   - cannot update model sources during execution
+other runner executing (TE/VAE): rejected                                  OK (got rejected)
+model_loader.cpp:179  - using 4 threads for model loading
+after it is removed: accepted                                              OK (got accepted)
+model_loader.cpp:202  - load /tmp/nph_sg_b.safetensors using safetensors format
+model_loader.cpp:270  - init from '/tmp/nph_sg_b.safetensors', prefix = 'lora.'
+model_manager_files.cpp:58   - cannot update model sources during execution
+fresh runner_start after hard end: rejected while executing                OK (got rejected)
+model_loader.cpp:202  - load /tmp/nph_sg_b.safetensors using safetensors format
+model_loader.cpp:270  - init from '/tmp/nph_sg_b.safetensors', prefix = 'lora.'
+model_manager_files.cpp:58   - cannot update model sources during execution
+idle mark of an unknown owner does not unlock                              OK (got rejected)
+RESULT: ALL PASS (0 failures)
