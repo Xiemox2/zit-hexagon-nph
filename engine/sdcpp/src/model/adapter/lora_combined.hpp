@@ -310,7 +310,7 @@ struct CombinedLoraAdapter : public WeightAdapter {
         bool from_cache = false;
         const std::string cdir = cache_dir();
         if (!cdir.empty()) {
-            ckey = std::string(kCacheMagic) + "|nph-0.30.3|split=" + std::to_string(max_split) + "\n";
+            ckey = std::string(kCacheMagic) + "|nph-0.30.4|split=" + std::to_string(max_split) + "\n";
             bool stat_ok = true;
             for (auto& m : lora_models) {
                 struct stat sb;

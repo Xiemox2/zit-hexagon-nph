@@ -202,7 +202,11 @@ inline bool combine(const std::vector<PartSrc>& srcs, int K, int N, int max_spli
     for (const auto& ps : srcs) {
         max_scale = std::max(max_scale, std::fabs((double)ps.scale));
     }
-    out.gain = max_scale > 0 ? std::max(0, std::min(10, -ilog2_floor(max_scale))) : 0;
+    // 0.30.4: never use gain=0 when any LoRA is present. max_scale>=1 used to force gain=0 and
+    // that dropped the FTZ-protection SCALE on deferred w2 (lin_scale 1/128), so a LoRA at
+    // strength 1.0 (or 2.0) turned a previously-working mix into pure noise on device. Always
+    // keep at least gain=1; unscaled Linears still force gain=0 in graph_apply.
+    out.gain = max_scale > 0 ? std::max(1, std::min(10, -ilog2_floor(max_scale))) : 0;
     out.R  = (int)terms.size();
     out.Rp = std::max(32, (out.R + 31) / 32 * 32);
     out.A.assign((size_t)K * out.Rp, ggml_fp32_to_fp16(0.0f));

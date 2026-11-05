@@ -12,13 +12,19 @@ In particular, we **invite the maintainers of [Nightmare Mobile](https://github.
 
 ## What it is
 
-- **App:** `com.zithexagon`, versionCode **45**, versionName **0.30.3** (fix on top of 0.30.2).
+- **App:** `com.zithexagon`, versionCode **46**, versionName **0.30.4** (fix on top of 0.30.2).
 - **Engine:** MIT fork of `stable-diffusion.cpp` / `ggml-hexagon` + NPH JNI (`libnph.so`).
 - **Reference phone:** Nubia Z80 Ultra (`NX741J`), **SM8850**, Hexagon **HTP v81**, Android 16. A **v79** skel is also shipped.
 - **Precision (never lowered):** DiT weights **FP8 E4M3**, non-matmul residual **FP32**, TE **Q8_0**, LoRA never below file precision (exact convert to FP16 + FP32 scale, FP32 accumulate).
 
 **Models are not in this repo.** Get them from public upstreams (below).
 
+
+## 0.30.4 — gain≥1 on scaled Linears
+
+**0.30.3** still produced pure dark noise when any LoRA strength was ≥ 1.0 (e.g. OiledSkin×0.7 + Landidzu×1.0). FP16 packing was exact; the bug was `gain=0` when `max_scale≥1`, which dropped the FTZ-protection SCALE on the deferred w2 path (`lin_scale=1/128`).
+
+**0.30.4 (vc46)** forces `gain = max(1, -ilog2_floor(max_scale))`, bumps the disk-cache key to `nph-0.30.4`, and keeps ADD(out,d) / fuse off.
 
 ## 0.30.3 — fix for 0.30.2 LoRA noise
 

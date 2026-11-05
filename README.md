@@ -12,13 +12,19 @@ En particular, **invitamos a quienes mantienen [Nightmare Mobile](https://github
 
 ## Qué es
 
-- **App:** `com.zithexagon`, versionCode **45**, versionName **0.30.3** (arreglo sobre 0.30.2).
+- **App:** `com.zithexagon`, versionCode **46**, versionName **0.30.4** (arreglo sobre 0.30.2).
 - **Motor:** fork MIT de `stable-diffusion.cpp` / `ggml-hexagon` + capa JNI NPH (`libnph.so`).
 - **Teléfono de referencia:** Nubia Z80 Ultra (`NX741J`), SoC **SM8850**, Hexagon **HTP v81**, Android 16. También se incluye el skel **v79**.
 - **Precisión (no se bajó):** DiT pesos **FP8 E4M3**, residuales no-matmul **FP32**, TE **Q8_0**, LoRA nunca por debajo de la precisión del archivo (conversión exacta a FP16 + escala FP32, acumulación FP32).
 
 Los **modelos no vienen en el repo**. Hay que conseguirlos en sus fuentes públicas (ver abajo).
 
+
+## 0.30.4 — gain≥1 en Linears escalados
+
+**0.30.3** seguía con ruido puro cuando algún LoRA iba a strength ≥ 1.0 (p. ej. OiledSkin×0.7 + Landidzu×1.0). El packing FP16 era exacto; el fallo era `gain=0` con `max_scale≥1`, que quitaba el SCALE de protección FTZ del camino deferred de w2 (`lin_scale=1/128`).
+
+**0.30.4 (vc46)** fuerza `gain = max(1, -ilog2_floor(max_scale))`, sube la clave de caché a `nph-0.30.4` y deja el ADD(out,d) / fuse off.
 
 ## 0.30.3 — arreglo del ruido LoRA de 0.30.2
 
