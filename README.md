@@ -49,10 +49,29 @@ Otras piezas que sí se usan en esos reportes:
 
 - **Op LoRA fusionada en HMX:** código presente, **OFF por defecto**, **sin evidencia de selftest en el teléfono**. El simulador de la caja no modela HMX. Meta ≲0.5 s/paso de overhead LoRA: **no medida**.
 - **Paso 1** sigue caro en host (reserva gallocr / rpcmem) en la 1.ª imagen de un contexto nuevo (~8–17 s según carga y LoRAs).
-- **VAE en GPU (NPG / OpenCL):** se midió ~51 s y ruidoso; **quitado** de la app a partir de 0.30.1 (el código opcional `-DNPH_OPENCL` puede quedar en el árbol del motor, apagado).
+- **VAE en GPU (NPG / OpenCL):** ver sección [NPU + GPU (NPG)](#npu--gpu-npg-probado-y-descartado) — **51.51 s** y muy ruidoso vs ~2–3 s en NPU; **quitado** en 0.30.1.
 - **TE Hunyuan:** no reconocido (fuera de alcance).
 - **NSFW:** puede salir de los LoRAs o del checkpoint; la app no filtra contenido.
 - **No se generaron imágenes en el servidor de build** al publicar: solo pruebas sintéticas y la APK firmada.
+
+## NPU + GPU (NPG): probado y descartado
+
+Se probó un motor híbrido **NPG** (NPU Hexagon + GPU Adreno 840 por OpenCL). En las builds de prueba **0.29 / 0.30.0** solo llegó a la app el **VAE en la GPU**; el DiT seguía en HTP0. Un **reparto de matmuls del DiT entre HMX y la GPU** se planificó en bancos NPG, pero **nunca entró en la app**.
+
+**Medido en el Z80 Ultra** (reporte con `vae=GPUOpenCL`, p. ej. la corrida NPG de 0.30):
+
+| | VAE GPU (Adreno 840 / OpenCL) | VAE NPU (`vae=HTP0`, reportes típicos) |
+|---|---:|---:|
+| Tiempo VAE (línea del reporte) | **51.51 s** | **~2.0–2.9 s** (mín. medido 2.04 s; un reporte 4.04 s) |
+| Cómputo | **43.00 s** | ~1.4–1.7 s en esos reportes |
+| Alloc host (perfil) | **~15.5 s** (`vae×2 alloc 15522 ms`) | mucho menor (reserva rpcmem del orden de décimas–1 s) |
+| Autoprueba sintética FP32 (sin modelo) | **OK en 452 ms** (8 ops en GPU) | — |
+
+La autoprueba pasó, pero en la generación real el VAE en GPU fue **~20× más lento** que en la NPU y la imagen salió **muy ruidosa** (sin ganancia de calidad).
+
+**Por qué se descartó:** más lento y peor calidad; no mejoró ni velocidad ni imagen. Un camino GPU para LoRA en runtime tampoco hacía falta: la **LoRA unificada FP16 en HMX** ya bajó el coste principal (~29.6 → ~9.3–10.3 s/paso con 2 LoRAs). Se **quitó de la app en 0.30.1** (el código OpenCL opcional puede quedar apagado en el árbol del motor).
+
+**Caché del TE / prompt** (aparte de NPG): está **encendida por defecto**. En reportes aparece p. ej. `Caché TE: … último: ram_hit` («HIT» en RAM al reutilizar el prompt ya codificado). El ahorro es **pequeño**, porque el TE en NPU ya es rápido (a menudo menos de 1 s con caché fría de pesos aparte; con `ram_hit` el cómputo del TE casi no se nota).
 
 ## LoRA unificada FP16 (por qué es más rápida)
 

@@ -43,10 +43,29 @@ Also exercised in those reports: FP8 DiT repack cache, TE cache (RAM+disk), Extr
 
 - **Fused HMX LoRA op:** present, **default OFF**, **no on-phone selftest evidence**. Box Hexagon sim has no HMX. Target ≲0.5 s/step LoRA overhead: **unmeasured**.
 - **Step 1** host cost on a fresh context remains high (~8–17 s depending on load/LoRAs).
-- **GPU VAE (NPG):** ~51 s and noisy; **removed** from the app since 0.30.1.
+- **GPU VAE (NPG):** see [NPU + GPU (NPG)](#npu--gpu-npg-tried-and-discarded) — **51.51 s** and very noisy vs ~2–3 s on NPU; **removed** in 0.30.1.
 - **Hunyuan TE:** not recognised (out of scope).
 - **NSFW** can come from LoRAs/checkpoints; the app does not filter.
 - **No real-model image generation** was done on the build box for this publish.
+
+## NPU + GPU (NPG): tried and discarded
+
+We tried a hybrid **NPG** engine (Hexagon NPU + Adreno 840 GPU via OpenCL). In the **0.29 / 0.30.0** test builds only the **VAE on the GPU** reached the app; the DiT stayed on HTP0. A **DiT matmul split between HMX and the GPU** was planned in NPG benches but **never shipped in the app**.
+
+**Measured on the Z80 Ultra** (report with `vae=GPUOpenCL`, e.g. the 0.30 NPG run):
+
+| | GPU VAE (Adreno 840 / OpenCL) | NPU VAE (`vae=HTP0`, typical reports) |
+|---|---:|---:|
+| VAE wall (report line) | **51.51 s** | **~2.0–2.9 s** (min measured 2.04 s; one report 4.04 s) |
+| Compute | **43.00 s** | ~1.4–1.7 s in those reports |
+| Host alloc (profile) | **~15.5 s** (`vae×2 alloc 15522 ms`) | much smaller (rpcmem reserve tenths–~1 s) |
+| Synthetic FP32 self-test (no model) | **OK in 452 ms** (8 ops on GPU) | — |
+
+The self-test passed, but in a real generation the GPU VAE was **~20× slower** than the NPU and the image came out **very noisy** (no quality win).
+
+**Why it was dropped:** slower and worse quality; no speed or quality improvement. A GPU path for runtime LoRA was also unnecessary: **unified FP16 LoRA on HMX** already cut the main cost (~29.6 → ~9.3–10.3 s/step with 2 LoRAs). **Removed from the app in 0.30.1** (optional OpenCL code may remain off in the engine tree).
+
+**TE / prompt cache** (separate from NPG): **on by default**. Reports show e.g. `Caché TE: … último: ram_hit` (RAM HIT when reusing an already-encoded prompt). The saving is **small**, because NPU text encoding is already fast.
 
 ## Unified FP16 LoRA (why it is faster)
 
