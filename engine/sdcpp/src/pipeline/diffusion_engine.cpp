@@ -1664,7 +1664,7 @@ bool StableDiffusionGGML::apply_loras_at_runtime(const std::vector<ModelManager:
                 }
                 if (nph_lora_combined && adapter == nph_lora_combined) {
                     // 0.30.3: HTP_OP_MUL_MAT_LORA retired (0.30.2 ADD reorder caused pure-noise LoRA images).
-                    LOG_INFO("nph-lora-fuse: off (0.30.4); ADD(out,d); deferred gain>=1 for scaled Linears");
+                    LOG_INFO("nph-lora-fuse: off (0.30.5); ADD(out,d); deferred gain>=1 for scaled Linears");
                 }
             } else {
                 nph_lora_combined.reset();
