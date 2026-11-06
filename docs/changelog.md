@@ -1,6 +1,23 @@
-# Changelog (línea NPH → 0.30.2)
+# Changelog (línea NPH)
 
 Fechas en America/Merida (UTC-6). Cifras de teléfono solo cuando se indica.
+
+## Recomendada: 0.30.1 (vc42) — 2026-11-06
+
+- **Build recomendada** para generar con LoRAs en SM8850 / HTP v81.
+- Release GitHub: **v0.30.1-stable** · sha256 `535f150c90cd3b11c80b351947b1bd4203f7ad436d27c435553e584636e737f5`.
+- Limitación: 2.ª imagen con LoRA puede fallar si el DiT sigue residente → liberar el modelo entre imágenes.
+- Incluye LoRA unificada FP16, paridad w2, caché LoRA, NPG quitado.
+
+## 0.30.2–0.30.5 — no recomendadas (ruido LoRA en dispositivo)
+
+En el Z80 Ultra, **todas** producen ruido oscuro con LoRAs. Probado y descartado: orden ADD, fuse HMX, toggles Mejoras, gain≥1, skels 0.30.1. Referencia CPU (stock y combinada) limpia. **Causa raíz no encontrada.** Se recomienda volver a **0.30.1**.
+
+### Detalle por versión (historial)
+- **0.30.2:** 2.ª imagen + op fuse HMX; ruido LoRA en teléfono; APK de release eliminado antes.
+- **0.30.3:** restauró ADD(out,d), fuse off; ruido **sigue**.
+- **0.30.4:** gain≥1; ruido **sigue**.
+- **0.30.5:** skels HTP = 0.30.1; ruido **sigue** (confirmado 2026-11-06).
 
 ## SdBench 0.1.x → app ZIT-HEXAGON temprana
 - Banco nativo sd.cpp + Hexagon HTP; APKs de prueba en HF privado (no publicadas aquí).

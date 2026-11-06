@@ -1,71 +1,85 @@
-# ZIT-HEXAGON NPH 0.30.2 (congelado)
+# ZIT-HEXAGON NPH — build recomendada: **0.30.1**
 
-**Experimental.** Motor NPH + aplicación Android para Z-Image Turbo / ReaZIT en la NPU Hexagon (HTP). Esta es la **última línea de trabajo sobre el DiT** de este proyecto: aquí se congela el DiT; no se planea seguir optimizándolo en NPH.
+**Experimental.** Motor NPH + aplicación Android para Z-Image Turbo / ReaZIT en la NPU Hexagon (HTP). Esta es la **última línea de trabajo sobre el DiT** de este proyecto.
 
 **English:** see [README.en.md](README.en.md).
 
+## Build recomendada: 0.30.1 (vc42)
+
+| | |
+|---|---|
+| Release | [**v0.30.1-stable**](https://github.com/Xiemox2/zit-hexagon-nph/releases/tag/v0.30.1-stable) |
+| APK | `zit-hexagon-0.30.1-release.apk` |
+| versionCode | **42** · versionName **0.30.1-test** |
+| SHA-256 | `535f150c90cd3b11c80b351947b1bd4203f7ad436d27c435553e584636e737f5` |
+| Firma | `b1c30ed7…4e99` (se instala encima) |
+
+En el Nubia Z80 Ultra (**SM8850** / Hexagon **HTP v81**) es la **última build que genera bien con LoRAs**. Descárgala desde Releases y úsala.
+
+### Limitación conocida (0.30.1)
+
+La **2.ª imagen con LoRA** puede fallar si el DiT sigue residente (modo Extremo): `cannot update model sources during execution`.
+
+**Solución:** libera el modelo entre imágenes (Liberar / salir de Extremo) y genera de nuevo.
+
+## Builds 0.30.2–0.30.5 — no recomendadas
+
+En el mismo teléfono, **0.30.2, 0.30.3, 0.30.4 y 0.30.5** producen **ruido oscuro** (textura negra/púrpura, sin sujeto) al usar LoRAs, aunque el grafo LoRA y las estadísticas del paso 1 se vean “ok”.
+
+**No uses esas builds para generar con LoRA.** Quedan en Releases solo como historial.
+
+### Qué se probó y se descartó (causa raíz: no encontrada)
+
+En caja (CPU) y en el teléfono se intentó y **se descartó** como causa:
+
+| Hipótesis | Resultado |
+|---|---|
+| Orden `ADD(d,out)` vs `ADD(out,d)` (0.30.2→0.30.3) | Restaurado; el ruido **sigue** |
+| Op fusionado HMX (`MUL_MAT_LORA`) | Apagado / retirado; el ruido **sigue** |
+| Toggles de Mejoras (set-paralelo, pool-buffers, prefetch-VAE, …) | Con el perfil de 0.30.1; el ruido **sigue** |
+| `gain=0` cuando strength ≥ 1.0 (0.30.4) | `gain≥1` forzado; el ruido **sigue** |
+| Skels HTP de 0.30.2+ (0.30.5 = skels de 0.30.1) | Skels restaurados; el ruido **sigue** (2026-11-06) |
+
+Además: en CPU, **sd.cpp stock** (LoRA por-LoRA) y el **camino NPH combinado** con las LoRAs reales (OiledSkin×0.7 + Landidzu×1.0) generan imagen **coherente** a 256²/512². El fallo es **específico del dispositivo / HTP**, no del empaquetado LoRA en CPU. La causa raíz **no se encontró**; se vuelve a **0.30.1**.
+
+## Código en este repo
+
+El árbol `engine/` / `app/` del repo puede incluir cambios posteriores a 0.30.1 (línea 0.30.2+: 2.ª imagen, fuse HMX retirado, gain≥1, etc.). **Eso no invalida** la recomendación: el APK que debes instalar es el de **v0.30.1-stable**. Los APK 0.30.2–0.30.5 están marcados como no recomendados en Releases.
+
 ## Invitación abierta (Nightmare Mobile y otros)
 
-Publicamos este motor y la app **para que sus ideas se puedan reutilizar**, sobre todo la **LoRA unificada en FP16** (más abajo), en otros motores de código abierto basados en la misma base MIT (`happyyzy/stable-diffusion.cpp` + `ggml-hexagon`).
+Publicamos este motor y la app **para que sus ideas se puedan reutilizar**, sobre todo la **LoRA unificada en FP16**, en otros motores MIT (`happyyzy/stable-diffusion.cpp` + `ggml-hexagon`).
 
-En particular, **invitamos a quienes mantienen [Nightmare Mobile](https://github.com/AbrahamPaulJ/nightmare-mobile)** (u otros forks) a estudiar y, si les sirve, adaptar la LoRA unificada FP16 y el resto de cambios NPH para acelerar sus propios caminos DiT. **No hay afiliación** con Nightmare Mobile ni con Local Dream: solo una propuesta abierta, sin compromiso ni respaldo implícito. Su código es CC BY-NC; el nuestro es MIT y **no incluye** nada de esos proyectos.
+**Invitamos** a quienes mantienen [Nightmare Mobile](https://github.com/AbrahamPaulJ/nightmare-mobile) (u otros forks) a estudiar y adaptar la LoRA unificada FP16 si les sirve. **No hay afiliación** con Nightmare Mobile ni con Local Dream. Su código es CC BY-NC; el nuestro es MIT y **no incluye** nada de esos proyectos.
 
 ## Qué es
 
-- **App:** `com.zithexagon`, versionCode **46**, versionName **0.30.4** (arreglo sobre 0.30.2).
-- **Motor:** fork MIT de `stable-diffusion.cpp` / `ggml-hexagon` + capa JNI NPH (`libnph.so`).
-- **Teléfono de referencia:** Nubia Z80 Ultra (`NX741J`), SoC **SM8850**, Hexagon **HTP v81**, Android 16. También se incluye el skel **v79**.
-- **Precisión (no se bajó):** DiT pesos **FP8 E4M3**, residuales no-matmul **FP32**, TE **Q8_0**, LoRA nunca por debajo de la precisión del archivo (conversión exacta a FP16 + escala FP32, acumulación FP32).
+- **App recomendada:** `com.zithexagon`, versionCode **42**, versionName **0.30.1-test**.
+- **Motor:** fork MIT de `stable-diffusion.cpp` / `ggml-hexagon` + JNI NPH (`libnph.so`).
+- **Teléfono de referencia:** Nubia Z80 Ultra (`NX741J`), **SM8850**, Hexagon **HTP v81**, Android 16 (skel **v79** también incluido en 0.30.1).
+- **Precisión (no se bajó):** DiT **FP8 E4M3**, residuales no-matmul **FP32**, TE **Q8_0**, LoRA nunca por debajo del archivo (FP16 exacto + escala FP32, acumulación FP32).
 
-Los **modelos no vienen en el repo**. Hay que conseguirlos en sus fuentes públicas (ver abajo).
-
-
-## 0.30.4 — gain≥1 en Linears escalados
-
-**0.30.3** seguía con ruido puro cuando algún LoRA iba a strength ≥ 1.0 (p. ej. OiledSkin×0.7 + Landidzu×1.0). El packing FP16 era exacto; el fallo era `gain=0` con `max_scale≥1`, que quitaba el SCALE de protección FTZ del camino deferred de w2 (`lin_scale=1/128`).
-
-**0.30.4 (vc46)** fuerza `gain = max(1, -ilog2_floor(max_scale))`, sube la clave de caché a `nph-0.30.4` y deja el ADD(out,d) / fuse off.
-
-## 0.30.3 — arreglo del ruido LoRA de 0.30.2
-
-La release pública **0.30.2 (vc44)** generaba **ruido oscuro** con LoRAs combinadas (con o sin fusión HMX). Causa: el orden `ADD(d,out)` de 0.30.2 (para el fuser) rompía el grafo 0.30.1 (`ADD(out,d)`); el perfil pasaba de **210 mm / 570 ew** a **360 / 420**.
-
-**0.30.3 (vc45)** restaura el ADD de 0.30.1, retira el op fusionado HMX, sube la magia de caché LoRA a `NPHLC003` y añade `nph-lora-sanity` tras el paso 1. El repo quedó **privado** mientras se valida; el APK de 0.30.2 se eliminó de Releases.
-
-## Estado congelado: por qué 0.30.2
-
-Se publica el árbol **0.30.2** (con el arreglo de la 2.ª imagen) y la **LoRA unificada FP16 activa por defecto**.
-
-El op experimental **«LoRA fusionada en HMX»** (sumar `escala·(B·(A·x))` dentro del matmul HMX) va **apagado por defecto**: en los reportes del teléfono **no** aparece la autoverificación `nph-lora-fuse`, así que ese camino **no está validado en hardware**. El interruptor sigue en Ajustes por si alguien quiere probarlo; si falla, el motor vuelve solo al camino 0.30.1.
+Los **modelos no vienen en el repo**. Consíguelos en fuentes públicas (Apache-2.0): DiT FP8 (p. ej. Kijai / ReaZIT-FP8), TE Qwen3-4B Q8_0, VAE `ae.safetensors`.
 
 ## Qué funciona (cifras medidas en el Z80 Ultra)
 
-Solo números sacados de reportes reales del teléfono. Resolución típica **1024×1024**, **8 pasos**, Euler, CFG 1.0, modo Extremo.
+Solo números de reportes reales. Típico **1024×1024**, **8 pasos**, Euler, CFG 1.0, Extremo.
 
 | Caso | Media s/paso | Generación | Botón → imagen | Notas |
 |---|---:|---:|---:|---|
-| Sin LoRA (mejor s/paso) | **7.25** | 60.5 s | 84.2 s | Mejoras set-paralelo + pool-buffers ON; contexto nuevo (carga fría) |
-| Sin LoRA (mejor botón→imagen entre corridas cercanas) | 7.54 | 62.6 s | **67.6** s | Misma línea 0.29 |
-| 2 LoRAs, camino **por-LoRA** (0.29) | **~29.4–29.9** | ~241–242 s | ~247 s | LandidzuStyle×0.9 + OiledSkin×0.7 |
-| 2 LoRAs, **LoRA unificada FP16** (0.30) | **9.27–10.28** | 85–91 s | ~91–93 s | Mismos 2 LoRAs; `matmuls_per_dit_pass=360` (antes 960) |
-| 0.30.1 / reporte 2026-11-01 (unificada) | **10.02–10.15** | ~85–86 s | ~91–92 s | Elementwise LoRA aún ~2 s/paso (570 ops); sin fusión HMX activa |
-
-Otras piezas que sí se usan en esos reportes:
-
-- Caché de repack FP8 del DiT (hits de varios GB durante el prefetch).
-- Caché de TE (RAM + disco).
-- Residencia Extremo (DiT+VAE se quedan si hay RAM libre ≥ umbral adaptativo).
-- Perfil HTP por op-batch (HMX / HVX / DMA / LoRA).
-- En 0.30.2: 2.ª imagen con LoRAs **sin** el error `cannot update model sources during execution` (arreglado en fuente; la prueba sintética en caja pasó 13/13).
+| Sin LoRA (mejor s/paso) | **7.25** | 60.5 s | 84.2 s | 0.29; set-paralelo + pool-buffers ON |
+| Sin LoRA (mejor botón→imagen) | 7.54 | 62.6 s | **67.6** s | Misma línea 0.29 |
+| 2 LoRAs, camino por-LoRA (0.29) | **~29.4–29.9** | ~241–242 s | ~247 s | Landidzu×0.9 + OiledSkin×0.7 |
+| 2 LoRAs, **LoRA unificada FP16** (**0.30 / 0.30.1**) | **9.27–10.28** | 85–91 s | ~91–93 s | Mismos 2 LoRAs; 360 matmuls/pasada (antes 960) |
 
 ## Qué no funciona o no está verificado
 
-- **Op LoRA fusionada en HMX:** código presente, **OFF por defecto**, **sin evidencia de selftest en el teléfono**. El simulador de la caja no modela HMX. Meta ≲0.5 s/paso de overhead LoRA: **no medida**.
-- **Paso 1** sigue caro en host (reserva gallocr / rpcmem) en la 1.ª imagen de un contexto nuevo (~8–17 s según carga y LoRAs).
-- **VAE en GPU (NPG / OpenCL):** ver sección [NPU + GPU (NPG)](#npu--gpu-npg-probado-y-descartado) — **51.51 s** y muy ruidoso vs ~2–3 s en NPU; **quitado** en 0.30.1.
-- **TE Hunyuan:** no reconocido (fuera de alcance).
-- **NSFW:** puede salir de los LoRAs o del checkpoint; la app no filtra contenido.
-- **No se generaron imágenes en el servidor de build** al publicar: solo pruebas sintéticas y la APK firmada.
+- **0.30.2–0.30.5 con LoRA en SM8850/v81:** ruido oscuro; **no recomendadas**.
+- **2.ª imagen con LoRA en 0.30.1** si el DiT sigue residente (ver arriba).
+- **VAE en GPU (NPG):** descartado — ver sección NPG.
+- **TE Hunyuan:** no reconocido.
+- **NSFW** puede salir de LoRAs/checkpoints; la app no filtra.
+
 
 ## NPU + GPU (NPG): probado y descartado
 
