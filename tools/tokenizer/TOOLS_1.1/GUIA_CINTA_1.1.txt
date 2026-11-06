@@ -1,0 +1,195 @@
+THPP 1.1 — guia de cinta y tools
+================================
+
+HPPT 1.0 y THPP 1.0 ahora son un solo crate: thpp. Un tipo, Thpp, dos modos.
+  Thpp::eager()  = THPP 1.0: es/en armados en new(), solo es/en.
+  Thpp::lazy()   = HPPT 1.0: 31 idiomas, cada dict se arma la primera vez.
+  Thpp::new()    = lazy.
+Misma cinta que 0.9 / 0.3 / 1.0. Los IDs viejos no cambiaron. Las listas
+txt son las mismas, congeladas con checksum (FNV-1a 64, data/CHECKSUMS.txt).
+Lo nuevo vive solo en rangos que antes no se usaban.
+
+Config::compat() (por defecto): donde 1.0 era sin perdida, la cinta 1.1 es
+identica a la de 1.0, id por id. Donde 1.0 perdia (PAD, '�', mayusculas
+mezcladas, NFD, \r, emojis...), 1.1 usa los ids nuevos y vuelve exacto.
+Config::v11(): ademas compuestos con guion/apostrofo, CJK mas largo, casing
+turco primero y VER al inicio. Cambia cintas, por eso no es el defecto.
+
+1. Cinta
+--------
+El modelo recibe Vec<u32> en orden. No hay embedding de posicion aparte.
+
+Formato:
+  LANG [VER] [FORM] [ TITLE|UPPER|TITLE_L|UPPER_L | MIXED CASE.. ] LEXEMA
+        SPACE  LEXEMA  [ SEP LETRA LETRA ... ]  PUNCT  [CP] [BYTE]
+
+IDs fijos (igual que 1.0):
+  SEP    0
+  NL     11
+  TAB    110
+  PAD    111      (encode 1.1 ya no lo emite; decode lo sigue leyendo como '�')
+  SPACE  1001
+  TITLE  1101
+  UPPER  1102
+  LANG es 1201
+  LANG en 1202
+  LANG fr 1203 ... (LL+1200, hasta bn 1231)
+
+IDs nuevos 1.1 (rangos que 1.0 no usaba):
+  MIXED     1103             sigue CASE.. y luego el lexema (iPhone, McDonald)
+  TITLE_L   1104             Title con reglas turcas (i->İ). Solo tr (LL 14)
+  UPPER_L   1105             UPPER con reglas turcas
+  FORM_NFC  1106             el siguiente lexema sale en NFC
+  FORM_NFD  1107             el siguiente lexema sale en NFD (cafe + U+0301)
+  VER       1300+v           opcional. 1.1 = 1311. Va despues de LANG
+  CASE      4000000 + mask   16 bits por id: bit k = letra k en mayuscula.
+                             Palabras de mas de 16 letras: varios CASE seguidos
+  CP        5000000 + cp     codepoint crudo (emoji, \r, NBSP, simbolos, letras
+                             sin CCC). 5000000..6114111
+  BYTE      6200000 + b      byte que no es UTF-8 valido. Solo encode_bytes /
+                             decode_bytes. 6200000..6200255
+
+Letra (5 cifras): igual.
+  id = LL * 10000 + CCC
+  a ES = 10010    a EN = 20010
+  CCC latino: a=10 b=12 (11=NL) ... z=36
+  CCC cirilico 300+   arabe 400+   。=436
+  1.1: los CCC 300-439 salen en encode y vuelven en decode, en todos los idiomas.
+
+Lexema: igual.
+  id = LL * 10000000 + 10 * 100000 + SS * 1000 + BBB
+  SS parte en 10. Cada 1000 lemas SS += 1. BBB = i % 1000.
+  primer lema ES = 11010000
+  primer lema EN = 21010000
+  primer lema GL (LL=10) = 101010000
+
+2. Donde se expande el diccionario
+----------------------------------
+No se expande en el bucle de encode. Una palabra del txt -> un id, y ahi se queda.
+
+Sitio exacto: src/dict.rs  Dict::load
+  split_whitespace del txt
+  minusculas
+  si ya estaba, se salta
+  tid = pack_lex(LL, i % 1000, 10 + i/1000)
+  bytes al arena, indice a slot[]
+  i += 1
+  Nuevo: si la palabra no esta en NFC, se agrega tambien su forma NFC como
+  alias con el MISMO id (solo para buscar; no crea ids).
+
+El rev (id -> string) ya no es un HashMap: el id da i = (SS-10)*1000 + BBB
+y se lee la palabra i del arena.
+
+Eager (es/en):
+  Thpp::eager()  ->  Dict::load es + Dict::load en. es=49901  en=49039.
+  Otros idiomas -> Error::LangNotEnabled (try_encode) o panic (encode).
+
+Lazy (31 idiomas, LL 1-31):
+  Thpp::lazy() no arma nada: 31 OnceLock vacios.
+  Se arma la primera vez que encode, decode o prepare pide ese idioma.
+  prepare(lang) lo arma ya (esto faltaba en 1.0: tool.rs llamaba prepare()).
+  prepare_all() arma los 31.
+  decode saca el idioma del id (LL) y arma ese dict si hace falta.
+  Antes HPPT solo buscaba en idiomas ya expandidos y escribia '�'.
+
+3. Encode (Rust)
+----------------
+1. Empuja lang_id. [VER si emit_version]. Lazy: puede disparar la expansion.
+2. Recorre bytes, no Vec<char>.
+3. ' ' -> 1001, uno por caracter.  '\n' -> 11.  '\t' -> 110.
+   No colapsa runs: dos espacios siguen siendo dos 1001.
+4. Run ASCII seguido de espacio/ASCII: camino rapido, igual que 1.0.
+   hit -> TITLE/UPPER si aplica, MIXED+CASE si es mezcla (iPhone) + lexema.
+5. Si is_cjk (Han/kana/hangul/thai): 1 glifo, lookup lexema.
+   v11: prueba primero el run CJK mas largo de la lista.
+   miss -> SEP + letra (o CP si no tiene CCC). Ya no PAD.
+6. Si is_alphabetic: junta el run (letras + marcas combinantes), minusculas,
+   lookup. Verifica reconstruyendo: solo emite lexema si al decodificar sale
+   el texto EXACTO. Orden:
+     a) la marca de 1.0 (asi la cinta es igual a 1.0)
+     b) FORM x {nada, TITLE, UPPER, TITLE_L, UPPER_L}
+     c) MIXED + CASE
+   Si nada reproduce el texto: SEP + letras. Una letra sin CCC -> CP.
+   v11: antes prueba compuestos a-b, l'x (hasta 4 uniones, el mas largo primero).
+   Turco (tr): prueba tambien i/İ ı/I. v11 la prueba primero.
+7. Digitos / punct -> CCC corto (enc, luego enc_ext). Sin CCC -> CP.
+   '\r', NBSP, ZWSP, emoji, ZWJ, simbolos: CP. Nunca '�'.
+8. encode_bytes: igual, pero los bytes no UTF-8 van como BYTE.
+9. encode_parallel(text, lang, hilos): parte en '\n', misma cinta que encode.
+
+4. Decode
+---------
+Ignora LANG (1201-1231) y VER (1300-1399).
+TITLE/UPPER/TITLE_L/UPPER_L/MIXED+CASE/FORM modifican el siguiente lexema.
+1001 -> U+0020. 11 -> salto. 110 -> tab. SEP no escribe.
+<1000 -> CCC corto. 5 cifras -> letra (tambien CCC 300-439).
+>= 10000000 -> lexema; el LL sale del id y se arma ese dict si falta.
+CP -> ese codepoint. BYTE -> ese byte (decode_bytes) o '�' (decode).
+PAD -> '�' (como 1.0; encode 1.1 no lo emite).
+Para cualquier UTF-8: decode(encode(s)) == s, byte a byte.
+Para cualquier byte: decode_bytes(encode_bytes(b)) == b.
+
+5. Fases (fases/)
+-----------------
+En Rust, como examples (cargo run --release --example fase01_ids, etc).
+01_ids.rs       constantes + pack_letter + pack_lex. Assert 10010 y 11010000.
+02_letra.rs     CCC e,s / e,n -> 10015 10029 20015 20024. '。' zh -> 436 y vuelve.
+03_lexema.rs    cubo SS: i=0 -> 11010000; i=1000 -> 11011000. Checksum de lista.
+                Apunta a Dict::load. Eager lo dispara new(); lazy, prepare/encode.
+04_cinta.rs     encode "el la" -> [1201, 11010000, 1001, 11010001]. v11 con 1311.
+05_roundtrip.rs decode de esa lista -> "el la". Roundtrip exacto en es ru zh ar vi en.
+06_marcas.rs    MIXED+CASE (iPhone), TITLE_L/UPPER_L (tr), FORM_NFD (cafe + U+0301).
+07_crudo.rs     CP (emoji, \r), sin PAD, BYTE con encode_bytes/decode_bytes.
+08_tht.rs       escribe y lee .tht y .npy.
+09_denso.rs     vocab denso ida y vuelta + factorize (tipo, idioma, cubo, slot).
+
+6. Tools
+--------
+Binarios 1.1:
+  cargo run --release --bin thpp        (demo)
+  cargo run --release --bin thpp-tool
+
+thpp imprime SPACE/SEP/..., pack_letter, pack_lex, encode("el la") y un
+roundtrip ru. Contrato de tool, igual que 0.9 / 0.3 / 1.0:
+
+thpp-tool ids
+thpp-tool encode es "el la"
+thpp-tool decode es 1201 11010000 1001 11010001
+thpp-tool encode es -
+thpp-tool file-encode es in.txt out.ids
+thpp-tool file-decode es out.ids out.txt
+
+Nuevo en 1.1:
+thpp-tool file-encode es in.txt out.tht     (o out.npy; formato por extension)
+thpp-tool file-decode es in.tht out.txt     (detecta tht / npy / texto)
+thpp-tool verify es a.txt b.txt             roundtrip byte a byte
+thpp-tool stats es in.txt                   ids, bytes/id, OOV, por tipo
+thpp-tool corpus es out.tht a.txt b.txt     muchos docs, en paralelo, + out.offsets.npy
+thpp-tool vocab v.vocab in.tht --min 2      vocab denso
+thpp-tool dense v.vocab in.tht out.npy      ids -> indices contiguos (para entrenar)
+thpp-tool undense v.vocab in.npy out.tht    vuelta
+thpp-tool factors in.tht out.npy            (N,4): tipo, idioma, cubo, slot
+thpp-tool bench es in.txt
+Opciones: --v11 --nfc --eager --threads N
+Lang: es en fr pt it de ca ro nl gl pl sv id tr vi sw af fi cs hu ru ar zh el he hi ja ko th fa bn.
+
+.tht: cabecera de 32 bytes, luego u32 little endian.
+  0  "THPT"
+  4  formato u16 = 1
+  6  spec u16 = 11
+  8  flags u32 (bit0 VER, bit1 nfc, bit2 compuestos, bit3 cjk largo,
+               bit4 turco primero, bit5 varios docs)
+  12 LL u32 (idioma de la cinta)
+  16 checksum de las 31 listas u64
+  24 cantidad de ids u64
+
+7. Que no hacen
+---------------
+No entrenan. No cambian el dict. No son tiktoken.
+No crean ids nuevos fuera de los rangos de arriba.
+Un decoder 1.0 no entiende 1103-1107, 13xx, CASE, CP, BYTE: saldria '�'.
+Con --nfc (nfc_input) el roundtrip es exacto solo hasta NFC.
+Las entradas '²' y 'nº' de las listas no se alcanzan: no son letras.
+HI/KO/TH siguen siendo semilla: casi todo va por letra o CP.
+RTL (ar/he) en terminal puede verse al reves; el roundtrip compara bytes.
+FI es este codigo sin esta guia ni fases/. FA (THPP_1.1) trae las dos.

@@ -1,0 +1,1 @@
+THPP 1.1 FI — solo código. 31 idiomas (eager es/en o lazy). Sin guía ni fases.
