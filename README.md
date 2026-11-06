@@ -130,6 +130,14 @@ Base común: **happyyzy `stable-diffusion.cpp` + `ggml-hexagon` (MIT)**. Local D
 
 ## Cómo obtener modelos
 
+### ReaZIT-QNN histórico (0.24.x / 0.25.x)
+
+La conversión **QNN/HTP v81 para SM8850** está en **[JiangFeng12/ReaZIT-QNN](https://huggingface.co/JiangFeng12/ReaZIT-QNN)**: carpeta CL para la app QNN **0.25.0–0.25.2** (LoRA rango 96) y ZIP SL anterior **0.24.x** (sin LoRA). **No sirve como paquete NPH de 0.30.1**. Es un archivo de investigación con fallos conocidos (NaN/cuadrículas y límites de RAM); consulta la tarjeta y sus SHA-256 antes de descargar.
+
+ReaZIT es de **[SassyAI](https://civitai.com/user/SassyAI)** — [modelo original](https://civitai.com/models/2391667/reazit). Distribución convertida no comercial; términos originales y del modelo base aplicables; pesos no MIT. Herramientas de conversión MIT: [ZIT-HEXAGON-QNN/tools](https://github.com/Xiemox2/ZIT-HEXAGON-QNN/tree/main/tools) y [diccionario](https://github.com/Xiemox2/ZIT-HEXAGON-QNN/tree/main/dictionary).
+
+**Herramientas teóricas, no probadas:** [Krea 2 QNN](https://github.com/Xiemox2/Tools_Krea2-npu) ya tiene repo público (código Apache-2.0, sin pesos; no se relicencia MIT). El usuario no continuará esta línea por ahora y la deja para que otras personas la terminen. En Hunyuan se encontraron planes QNN, pero no un convertidor QNN independiente; no se incorpora código de Local Dream/Nightmare Mobile ni se cambian las licencias del proyecto Hunyuan existente.
+
 ### ReaZIT-NPH público (0.30.1)
 
 Descarga [JiangFeng12/ReaZIT-NPH](https://huggingface.co/JiangFeng12/ReaZIT-NPH): DiT ReaZIT FP8 E4M3, codificador Qwen3-4B Q8_0 y VAE estándar. La tarjeta incluye tamaños, SHA-256 y pasos para importar **DiT / TE / VAE** en **Modelos (NPH)** de la [0.30.1 estable](https://github.com/Xiemox2/zit-hexagon-nph/releases/tag/v0.30.1-stable).
