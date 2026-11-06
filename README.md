@@ -136,7 +136,7 @@ La conversión **QNN/HTP v81 para SM8850** está en **[JiangFeng12/ReaZIT-QNN](h
 
 ReaZIT es de **[SassyAI](https://civitai.com/user/SassyAI)** — [modelo original](https://civitai.com/models/2391667/reazit). Distribución convertida no comercial; términos originales y del modelo base aplicables; pesos no MIT. Herramientas de conversión MIT: [ZIT-HEXAGON-QNN/tools](https://github.com/Xiemox2/ZIT-HEXAGON-QNN/tree/main/tools) y [diccionario](https://github.com/Xiemox2/ZIT-HEXAGON-QNN/tree/main/dictionary).
 
-**Herramientas teóricas, no probadas:** [Krea 2 QNN](https://github.com/Xiemox2/Tools_Krea2-npu) ya tiene repo público (código Apache-2.0, sin pesos; no se relicencia MIT). El usuario no continuará esta línea por ahora y la deja para que otras personas la terminen. En Hunyuan se encontraron planes QNN, pero no un convertidor QNN independiente; no se incorpora código de Local Dream/Nightmare Mobile ni se cambian las licencias del proyecto Hunyuan existente.
+**Herramientas teóricas, no probadas:** [Krea 2 QNN](https://github.com/Xiemox2/Tools_Krea2-npu) ya tiene repo público (código Apache-2.0, sin pesos; no se relicencia MIT). El usuario no continuará esta línea por ahora y la deja para que otras personas la terminen. [Hunyuan QNN](https://github.com/Xiemox2/Tools_Hunyuan-qnn) (HunyuanVideo 1.5 y 13B → HTP v81, MIT, sin pesos) también está publicado como herramientas teóricas no probadas; los adaptadores del DiT y del VAE fallan a propósito hasta que alguien los implemente. No se incorpora código de Local Dream/Nightmare Mobile.
 
 ### ReaZIT-NPH público (0.30.1)
 
