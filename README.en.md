@@ -57,7 +57,7 @@ We **invite** the maintainers of [Nightmare Mobile](https://github.com/AbrahamPa
 - **Reference phone:** Nubia Z80 Ultra (`NX741J`), **SM8850**, Hexagon **HTP v81**, Android 16 (**v79** skel also in 0.30.1).
 - **Precision (never lowered):** DiT **FP8 E4M3**, non-matmul residual **FP32**, TE **Q8_0**, LoRA never below file precision (exact FP16 + FP32 scale, FP32 accumulate).
 
-**Models are not in this repo.** Get them from public Apache-2.0 upstreams (e.g. Kijai / ReaZIT-FP8 DiT, Qwen3-4B Q8_0 TE, `ae.safetensors` VAE).
+**Models are not in this repo.** The converted [ReaZIT-NPH](https://huggingface.co/JiangFeng12/ReaZIT-NPH) package includes the FP8 DiT, Qwen3-4B Q8_0 TE and `ae.safetensors` VAE; see its per-component terms. **ReaZIT weights are not MIT and are not offered here as unrestricted Apache-2.0 weights**.
 
 ## What works (phone-measured)
 
@@ -124,6 +124,12 @@ Shared base: **happyyzy `stable-diffusion.cpp` + `ggml-hexagon` (MIT)**. Local D
 | Other | FA exp2, threaded HVX copies, MiniMax H3, fused RoPE (per branches) | TE cache, adaptive residency, per-op HTP profile, synthetic self-tests |
 
 ## Getting models
+
+### Public ReaZIT-NPH package (0.30.1)
+
+Download [JiangFeng12/ReaZIT-NPH](https://huggingface.co/JiangFeng12/ReaZIT-NPH): ReaZIT FP8 E4M3 DiT, Qwen3-4B Q8_0 text encoder and standard VAE. The card includes file sizes, SHA-256 and instructions to import **DiT / TE / VAE** in **Models (NPH)** in the [stable 0.30.1 app](https://github.com/Xiemox2/zit-hexagon-nph/releases/tag/v0.30.1-stable).
+
+**Original ReaZIT author: [SassyAI](https://civitai.com/user/SassyAI)** — [original model](https://civitai.com/models/2391667/reazit). Thank you for permitting this conversion release with author credit and a profile link. **This converted distribution is for non-commercial use only**; the ReaZIT and Z-Image Turbo terms also apply. Apache-2.0 components retain their upstream terms. Our code's MIT license does not license the model weights.
 
 Not hosted here. Use each author’s public HF/Civitai pages (ReaZIT / Z-Image Turbo, your LoRAs, upscalers). Some upscalers in Settings are **CC BY-NC-SA**.
 

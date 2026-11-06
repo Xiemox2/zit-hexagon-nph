@@ -59,7 +59,7 @@ Publicamos este motor y la app **para que sus ideas se puedan reutilizar**, sobr
 - **Teléfono de referencia:** Nubia Z80 Ultra (`NX741J`), **SM8850**, Hexagon **HTP v81**, Android 16 (skel **v79** también incluido en 0.30.1).
 - **Precisión (no se bajó):** DiT **FP8 E4M3**, residuales no-matmul **FP32**, TE **Q8_0**, LoRA nunca por debajo del archivo (FP16 exacto + escala FP32, acumulación FP32).
 
-Los **modelos no vienen en el repo**. Consíguelos en fuentes públicas (Apache-2.0): DiT FP8 (p. ej. Kijai / ReaZIT-FP8), TE Qwen3-4B Q8_0, VAE `ae.safetensors`.
+Los **modelos no vienen en el repo**. El paquete convertido [ReaZIT-NPH](https://huggingface.co/JiangFeng12/ReaZIT-NPH) incluye DiT FP8, TE Qwen3-4B Q8_0 y VAE `ae.safetensors`; consulta sus términos por componente. **Los pesos ReaZIT no son MIT ni se ofrecen aquí como Apache-2.0 sin restricciones**.
 
 ## Qué funciona (cifras medidas en el Z80 Ultra)
 
@@ -129,6 +129,12 @@ Base común: **happyyzy `stable-diffusion.cpp` + `ggml-hexagon` (MIT)**. Local D
 | Otras | FA exp2, copias HVX a hilos, MiniMax H3, RoPE fusionado (según ramas) | caché TE, residencia adaptativa, perfil HTP por op, self-tests sintéticos |
 
 ## Cómo obtener modelos
+
+### ReaZIT-NPH público (0.30.1)
+
+Descarga [JiangFeng12/ReaZIT-NPH](https://huggingface.co/JiangFeng12/ReaZIT-NPH): DiT ReaZIT FP8 E4M3, codificador Qwen3-4B Q8_0 y VAE estándar. La tarjeta incluye tamaños, SHA-256 y pasos para importar **DiT / TE / VAE** en **Modelos (NPH)** de la [0.30.1 estable](https://github.com/Xiemox2/zit-hexagon-nph/releases/tag/v0.30.1-stable).
+
+**Autora original de ReaZIT: [SassyAI](https://civitai.com/user/SassyAI)** — [modelo original](https://civitai.com/models/2391667/reazit). Gracias por permitir publicar esta conversión con crédito y enlace a su perfil. **Distribución convertida solo para uso no comercial**; aplican los términos de ReaZIT y de Z-Image Turbo. Los componentes Apache-2.0 conservan sus términos originales. La licencia MIT de nuestro código no licencia los pesos.
 
 No se alojan aquí. Fuentes públicas típicas (licencias propias de cada autor):
 
