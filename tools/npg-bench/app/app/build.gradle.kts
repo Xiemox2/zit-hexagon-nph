@@ -5,7 +5,8 @@ plugins {
     id("com.android.application")
 }
 
-val ksDir = File("/workspace/zit-qnn/sdbench/keystore")
+// Optional local keystore (NOT in git). Set NPH_KEYSTORE_DIR or place properties beside the app.
+val ksDir = File(System.getenv("NPH_KEYSTORE_DIR") ?: "${rootProject.projectDir}/../../../keystore")
 val ksProps = Properties().apply {
     val f = File(ksDir, "sdbench-release.properties")
     if (f.exists()) f.inputStream().use { load(it) }
