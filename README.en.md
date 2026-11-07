@@ -143,10 +143,13 @@ Not hosted here. Use each author’s public HF/Civitai pages (ReaZIT / Z-Image T
 
 ## Release APK
 
-See [Releases](../../releases) for `zit-hexagon-0.30.2-release.apk` (signed; **keystore not published**).
+Recommended build: [**v0.30.1-stable**](https://github.com/Xiemox2/zit-hexagon-nph/releases/tag/v0.30.1-stable) — `zit-hexagon-0.30.1-release.apk` (signed; **keystore not published**).
 
-- versionCode 44 / 0.30.2  
+- versionCode **42** / versionName **0.30.1-test**
+- APK SHA-256: `535f150c90cd3b11c80b351947b1bd4203f7ad436d27c435553e584636e737f5`
 - Cert SHA-256: `b1c30ed727183cdf065750369bd3f62e3efeede539c1db5222fefb064c4f4e99`
+
+Releases **0.30.2–0.30.5** remain as history only (not recommended; the 0.30.2 APK was removed).
 
 ## Layout
 
